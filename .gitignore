@@ -1,0 +1,8 @@
+# Assets and notes not needed for the public demo site
+brand-logo.jpg
+Presentacion_Transcontrol_Gamma.md
+
+# Local build output
+_site/
+.DS_Store
+Thumbs.db

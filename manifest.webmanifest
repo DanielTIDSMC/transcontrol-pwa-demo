@@ -1,0 +1,14 @@
+{
+  "name": "Transcontrol · Centro de operación",
+  "short_name": "Transcontrol",
+  "description": "Control de viajes, flota y alertas de transporte.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
