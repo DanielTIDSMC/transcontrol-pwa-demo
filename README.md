@@ -1,10 +1,10 @@
-# Transcontrol · Centro de control
+# Transcontrol · Control de Taller y Mantenimiento
 
-Prototipo visual e interactivo de una PWA para seguimiento de viajes, flota y alertas de una empresa de transportes.
+Prototipo visual e interactivo de una PWA para control de taller mecánico, mantenimiento preventivo y correctivo de flota vehicular, órdenes de trabajo (OTs), ocupación de bahías y almacén de refacciones.
 
 ## Demo
 
-Al publicarse, GitHub Pages servirá la aplicación como sitio estático. Los datos de viajes, clientes, unidades e indicadores son ficticios y sirven únicamente para recorrer el prototipo.
+Al publicarse, GitHub Pages servirá la aplicación como sitio estático. Los datos de órdenes de trabajo, refacciones, bahías, unidades e indicadores son ficticios y sirven únicamente para recorrer el prototipo.
 
 ## Ejecutar localmente
 
@@ -20,9 +20,13 @@ Abre `http://127.0.0.1:4173`.
 
 El workflow de GitHub Actions publica la app al hacer push a `main`. Solo publica los archivos estáticos necesarios para la demo; no publica el documento de preparación de Gamma ni la imagen original del logo.
 
-## Alcance del prototipo
+## Alcance del prototipo enfocado al Taller
 
-- Navegación por centro de control, viajes, mapa, alertas, unidades, clientes y reportes.
-- Datos de demostración locales, sin conexión a sistemas de transporte.
-- Notificaciones de navegador de prueba; no existe todavía un servicio backend de notificaciones.
-- No usar para coordinar viajes reales ni como sistema de producción.
+- **Centro de control:** OTs en proceso, disponibilidad de flota, alertas de mantenimiento y piso de taller.
+- **Órdenes de trabajo (OTs):** Registro, diagnóstico, refacciones asignadas, mecánico y avance por orden.
+- **Bahías del taller en vivo:** Plano interactivo del taller techado, fosas de servicio pesado y patio de maniobras.
+- **Alertas de taller:** Preventivos vencidos por odómetro, refacciones agotadas y fallas en checklist pre-viaje.
+- **Flota y Unidades:** Odómetro, condición mecánica, historial de intervenciones y próximo preventivo.
+- **Almacén de refacciones:** Inventario de piezas críticas (frenos, filtros, turbos, lubricantes, neumáticos) y control de stock mínimo.
+- **Reportes de taller:** Cumplimiento preventivo vs. correctivo, tiempo promedio de reparación en bahía (MTTR) y disponibilidad de flota.
+- **Guía interactiva (Tour):** Recorrido paso a paso adaptado a las responsabilidades del taller.

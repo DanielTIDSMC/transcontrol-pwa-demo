@@ -26,7 +26,7 @@ http.createServer((req, res) => {
     }
     res.writeHead(200, {
       'Content-Type': types[path.extname(filePath)] || 'application/octet-stream',
-      'Cache-Control': 'no-cache',
+      'Cache-Control': 'no-store, no-cache, must-revalidate',
       'Service-Worker-Allowed': '/',
     });
     res.end(body);

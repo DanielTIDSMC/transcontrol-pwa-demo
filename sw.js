@@ -1,30 +1,49 @@
-const CACHE_NAME = 'transcontrol-demo-v5';
+const CACHE_NAME = 'transcontrol-taller-v4';
 const APP_FILES = ['./', './index.html', './manifest.webmanifest', './icon.svg', './brand-mark.png'];
 
 self.addEventListener('install', event => {
-  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_FILES)));
-  self.skipWaiting();
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(APP_FILES))
+      .then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener('activate', event => {
-  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)))));
-  self.clients.claim();
+  event.waitUntil(
+    caches.keys().then(keys => Promise.all(
+      keys.filter(key => key.startsWith('transcontrol-') && key !== CACHE_NAME)
+        .map(key => caches.delete(key))
+    ))
+      .then(() => self.clients.claim())
+  );
 });
 
+// Estrategia Network-First: Siempre intenta obtener el archivo fresco del servidor
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET' || new URL(event.request.url).origin !== self.location.origin) return;
-  event.respondWith(caches.match(event.request).then(cached => cached || fetch(event.request).then(response => {
-    const copy = response.clone();
-    caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
-    return response;
-  }).catch(() => caches.match('./index.html'))));
+
+  event.respondWith(
+    fetch(event.request)
+      .then(response => {
+        if (response.status === 200) {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+        }
+        return response;
+      })
+      .catch(() => {
+        if (event.request.mode === 'navigate') return caches.match('./index.html');
+        return caches.match(event.request);
+      })
+  );
 });
 
 self.addEventListener('push', event => {
-  let data = { title: 'Transcontrol', body: 'Tienes una actualización de operación.', url: './index.html' };
+  let data = { title: 'Transcontrol Taller', body: 'Tienes una actualización del taller mecánico.', url: './index.html' };
   try { if (event.data) data = { ...data, ...event.data.json() }; } catch { if (event.data) data.body = event.data.text(); }
   event.waitUntil(self.registration.showNotification(data.title, {
-    body: data.body, icon: './icon.svg', badge: './icon.svg', tag: data.tag || 'transcontrol-ops',
+    body: data.body, icon: './icon.svg', badge: './icon.svg', tag: data.tag || 'transcontrol-taller-ops',
     data: { url: data.url || './index.html' }, vibrate: [120, 60, 120]
   }));
 });

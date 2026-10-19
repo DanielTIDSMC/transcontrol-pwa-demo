@@ -1,7 +1,7 @@
 {
-  "name": "Transcontrol · Centro de operación",
-  "short_name": "Transcontrol",
-  "description": "Control de viajes, flota y alertas de transporte.",
+  "name": "Transcontrol · Control de Taller",
+  "short_name": "Transcontrol Taller",
+  "description": "Control operativo de taller mecánico, mantenimiento de flota, órdenes de trabajo y refacciones.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
