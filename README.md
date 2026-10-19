@@ -1,32 +1,46 @@
-# Transcontrol · Control de Taller y Mantenimiento
+# Transcontrol · Control de Taller
 
-Prototipo visual e interactivo de una PWA para control de taller mecánico, mantenimiento preventivo y correctivo de flota vehicular, órdenes de trabajo (OTs), ocupación de bahías y almacén de refacciones.
+Aplicación web instalable para coordinar reportes de fallas, órdenes del taller, técnicos y estado de unidades.
 
-## Demo
+## Perfiles
 
-Al publicarse, GitHub Pages servirá la aplicación como sitio estático. Los datos de órdenes de trabajo, refacciones, bahías, unidades e indicadores son ficticios y sirven únicamente para recorrer el prototipo.
+- **Oscar 1 · Administrador:** acceso a todas las secciones, cuentas, permisos, inventario, órdenes e indicadores.
+- **Fernanda · Coordinación:** revisa reportes, asigna técnicos, consulta la flota y confirma los trabajos terminados.
+- **Taller · Técnico:** registra una falla con hasta tres fotos, consulta sus asignaciones y actualiza el avance.
+
+Los reportes nuevos notifican a Oscar 1 y Fernanda. La asignación queda pendiente hasta que una persona de coordinación elija al técnico. El taller puede marcar un trabajo como listo para revisión; Fernanda u Oscar lo confirma y lo cierra.
+
+Los permisos se validan en el servidor. El historial de tareas, cambios de estado, notificaciones y fotos se guardan en el backend.
 
 ## Ejecutar localmente
 
-Necesitas Node.js. En esta carpeta ejecuta:
+Necesitas Node.js 22 o posterior. Instala las dependencias y crea `.env` desde la plantilla:
 
 ```powershell
-node server.js
+npm install
+Copy-Item .env.example .env
 ```
 
-Abre `http://127.0.0.1:4173`.
+Edita `.env` y define contraseñas distintas de al menos 12 caracteres para `OSCAR_PASSWORD`, `FERNANDA_PASSWORD` y `WORKSHOP_PASSWORD`. Después ejecuta:
 
-## Publicación
+```powershell
+npm start
+```
 
-El workflow de GitHub Actions publica la app al hacer push a `main`. Solo publica los archivos estáticos necesarios para la demo; no publica el documento de preparación de Gamma ni la imagen original del logo.
+Abre `http://127.0.0.1:4173`. Las cuentas iniciales son `oscar1`, `fernanda` y `taller1`; las contraseñas son las que definiste en `.env` durante el primer inicio.
 
-## Alcance del prototipo enfocado al Taller
+Los datos locales se guardan en `data/`. No subas `.env`, fotos ni el directorio `data/` al repositorio.
 
-- **Centro de control:** OTs en proceso, disponibilidad de flota, alertas de mantenimiento y piso de taller.
-- **Órdenes de trabajo (OTs):** Registro, diagnóstico, refacciones asignadas, mecánico y avance por orden.
-- **Bahías del taller en vivo:** Plano interactivo del taller techado, fosas de servicio pesado y patio de maniobras.
-- **Alertas de taller:** Preventivos vencidos por odómetro, refacciones agotadas y fallas en checklist pre-viaje.
-- **Flota y Unidades:** Odómetro, condición mecánica, historial de intervenciones y próximo preventivo.
-- **Almacén de refacciones:** Inventario de piezas críticas (frenos, filtros, turbos, lubricantes, neumáticos) y control de stock mínimo.
-- **Reportes de taller:** Cumplimiento preventivo vs. correctivo, tiempo promedio de reparación en bahía (MTTR) y disponibilidad de flota.
-- **Guía interactiva (Tour):** Recorrido paso a paso adaptado a las responsabilidades del taller.
+## Desplegar el sistema colaborativo en Render
+
+El archivo `render.yaml` define un servicio Node con disco persistente para reportes, suscripciones push y fotos. En Render crea un **Blueprint** desde este repositorio y establece las contraseñas iniciales cuando las solicite. El servicio con disco persistente requiere un plan de pago de Render; revisa el plan y el costo en tu cuenta antes de crearlo.
+
+El proyecto genera y conserva sus claves VAPID en el disco del servicio para Web Push. Cada persona debe iniciar sesión y activar las notificaciones en su dispositivo. En iPhone, instala la app desde Safari a la pantalla de inicio y concede permiso de notificaciones.
+
+## GitHub Pages
+
+GitHub Pages sigue publicando una vista de demostración estática. No puede ejecutar el servidor Node ni guardar tareas compartidas, cuentas o fotos. El sistema colaborativo se sirve desde el servicio Node en Render.
+
+## Datos de demostración
+
+Los tableros heredados de órdenes, bahías, unidades, almacén e indicadores conservan datos de muestra. El nuevo flujo de reportes, asignaciones y estados sí usa el backend persistente.

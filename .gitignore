@@ -6,3 +6,8 @@ Presentacion_Transcontrol_Gamma.md
 _site/
 .DS_Store
 Thumbs.db
+
+# Local secrets and persisted runtime data
+.env
+data/
+node_modules/

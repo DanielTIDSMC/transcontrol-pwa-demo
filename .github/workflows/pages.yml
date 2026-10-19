@@ -23,7 +23,7 @@ jobs:
       - name: Preparar sitio estático
         run: |
           mkdir _site
-          cp index.html manifest.webmanifest sw.js icon.svg brand-mark.png _site/
+          cp index.html roles-app.js manifest.webmanifest sw.js icon.svg brand-mark.png _site/
           touch _site/.nojekyll
       - name: Configurar GitHub Pages
         uses: actions/configure-pages@v5

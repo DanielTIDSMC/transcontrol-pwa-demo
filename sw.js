@@ -1,5 +1,5 @@
-const CACHE_NAME = 'transcontrol-taller-v4';
-const APP_FILES = ['./', './index.html', './manifest.webmanifest', './icon.svg', './brand-mark.png'];
+const CACHE_NAME = 'transcontrol-taller-v5';
+const APP_FILES = ['./', './index.html', './roles-app.js', './manifest.webmanifest', './icon.svg', './brand-mark.png'];
 
 self.addEventListener('install', event => {
   event.waitUntil(
