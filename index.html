@@ -1550,7 +1550,7 @@
           <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-head">
               <h2>${title}</h2>
-              <button class="modal-x" data-modal-close>×</button>
+              <button type="button" class="modal-x" data-modal-close aria-label="Cerrar ficha">×</button>
             </div>
             <div class="modal-body">${body}</div>
           </div>
@@ -1750,7 +1750,7 @@
     }
     document.addEventListener('click', e => {
       if (e.target.matches('[data-modal-close]')) closeModal();
-    });
+    }, true);
 
     function downloadCSV(name, headers, rows) {
       const csv = [headers, ...rows].map(row => row.map(cell => '"' + String(cell).replaceAll('"', '""') + '"').join(',')).join('\n');
