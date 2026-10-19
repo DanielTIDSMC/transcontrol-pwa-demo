@@ -31,15 +31,19 @@ Abre `http://127.0.0.1:4173`. Las cuentas iniciales son `oscar1`, `fernanda` y `
 
 Los datos locales se guardan en `data/`. No subas `.env`, fotos ni el directorio `data/` al repositorio.
 
-## Desplegar el sistema colaborativo en Render
+## Desplegar una demo en Railway
 
-El archivo `render.yaml` define un servicio Node con disco persistente para reportes, suscripciones push y fotos. En Render crea un **Blueprint** desde este repositorio y establece las contraseñas iniciales cuando las solicite. El servicio con disco persistente requiere un plan de pago de Render; revisa el plan y el costo en tu cuenta antes de crearlo.
+El archivo `railway.json` configura el inicio del servidor y su comprobación de salud. En Railway crea un proyecto desde el repositorio `DanielTIDSMC/transcontrol-pwa-demo` y despliega la rama `main`.
 
-El proyecto genera y conserva sus claves VAPID en el disco del servicio para Web Push. Cada persona debe iniciar sesión y activar las notificaciones en su dispositivo. En iPhone, instala la app desde Safari a la pantalla de inicio y concede permiso de notificaciones.
+En **Variables**, define `OSCAR_USERNAME=oscar1`, `OSCAR_NAME=Oscar 1`, `OSCAR_PASSWORD`, `FERNANDA_USERNAME=fernanda`, `FERNANDA_NAME=Fernanda`, `FERNANDA_PASSWORD`, `WORKSHOP_USERNAME=taller1`, `WORKSHOP_NAME=Técnico de taller 1` y `WORKSHOP_PASSWORD`. Cada contraseña debe ser distinta y tener al menos 12 caracteres. Define también `DATA_DIR=/data`.
+
+En **Volumes**, agrega un volumen con punto de montaje `/data` para conservar órdenes y fotos entre reinicios. En **Networking**, genera un dominio público. Usa la app solo como demo con datos ficticios; la prueba y el plan gratuito tienen créditos y límites de recursos, así que revisa **Usage** y no cambies a un plan de pago.
+
+El proyecto genera claves VAPID automáticamente para notificaciones web cuando el paquete `web-push` está instalado. Cada usuario debe iniciar sesión y activar las notificaciones en su dispositivo.
 
 ## GitHub Pages
 
-GitHub Pages sigue publicando una vista de demostración estática. No puede ejecutar el servidor Node ni guardar tareas compartidas, cuentas o fotos. El sistema colaborativo se sirve desde el servicio Node en Render.
+GitHub Pages sigue publicando una vista estática de demostración. No puede ejecutar el servidor Node ni guardar tareas compartidas, cuentas o fotos. Para probar ese flujo usa la URL pública del servicio Node en Railway.
 
 ## Datos de demostración
 
