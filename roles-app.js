@@ -125,6 +125,8 @@
       const initials = user.name.split(/\s+/).slice(0, 2).map(word => word[0]).join('').toUpperCase();
       profile.innerHTML = `<div class="avatar">${esc(initials)}</div><div><strong>${esc(user.name)}</strong><small>${esc(labels[user.role])}</small></div>`;
     }
+    const dashboardProfile = $('.dashboard-profile');
+    if (dashboardProfile) dashboardProfile.innerHTML = `<div class="avatar">${esc(user.name.split(/\s+/).slice(0, 2).map(word => word[0]).join('').toUpperCase())}</div><div><strong>${esc(user.name)}</strong><small>${esc(labels[user.role])}</small></div>`;
     const topAvatar = $('.top-actions>.avatar');
     if (topAvatar) topAvatar.textContent = user.name.split(/\s+/).slice(0, 2).map(word => word[0]).join('').toUpperCase();
     let tools = $('.role-user-tools');
@@ -276,6 +278,9 @@
   }
 
   function onRoleClick(event) {
+    if (event.target.closest('.nav button[data-section="Centro de control"]') && currentUser) {
+      setTimeout(() => setProfile(currentUser), 0);
+    }
     const nav = event.target.closest('[data-role-section]');
     if (nav) {
       event.preventDefault();

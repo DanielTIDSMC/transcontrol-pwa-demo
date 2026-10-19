@@ -45,6 +45,12 @@
     .avatar{width:33px;height:33px;border-radius:50%;background:#feebeb;color:#c5232b;display:grid;place-items:center;font-size:11px;font-weight:700}
     .profile strong{font-size:11px;color:#29292d;display:block}
     .profile small{font-size:10px;color:#85858c}
+    .dashboard-identity{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin:0 0 18px}
+    .dashboard-health,.dashboard-profile{min-height:58px;padding:11px 13px;border:1px solid #e8e8eb;border-radius:10px;background:#fff;display:flex;align-items:center;gap:10px}
+    .dashboard-health{background:#f8f8f9}
+    .dashboard-health strong,.dashboard-profile strong{display:block;font-size:11px;color:#29292d}
+    .dashboard-health small,.dashboard-profile small{display:block;margin-top:3px;font-size:10px;color:#85858c}
+    .dashboard-profile{border-top:1px solid #e8e8eb}
     main{min-width:0}
     .topbar{height:70px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:15}
     .crumb{font-size:12px;color:#8a96a5}
@@ -387,6 +393,7 @@
     @media(max-width:600px){
       .topbar{height:58px;padding:0 12px}.crumb{font-size:10px;white-space:nowrap}.top-actions{gap:7px}.date{font-size:9px}
       .content{padding:18px 13px calc(88px + env(safe-area-inset-bottom))}
+      .dashboard-identity{grid-template-columns:minmax(0,1fr);gap:8px;margin-bottom:15px}
       .heading,.page-heading{align-items:flex-start;gap:10px}
       .heading h1,.page-heading h1{font-size:22px;line-height:1.16}
       .heading p,.page-heading p{font-size:11px;line-height:1.45;max-width:260px}
@@ -466,17 +473,7 @@
           <span class="label">Reportes de taller</span>
         </button>
       </nav>
-      <div class="side-bottom">
-        <div class="health">
-          <span class="pulse"></span>
-          <div><strong>Sistemas de taller en línea</strong><small>Monitoreo de bahías · activo</small></div>
-        </div>
-        <div class="profile">
-          <div class="avatar">CM</div>
-          <div><strong>Ing. Carlos Méndez</strong><small>Jefe de Mantenimiento y Taller</small></div>
-          <span style="margin-left:auto;color:#8898ab">···</span>
-        </div>
-      </div>
+
     </aside>
 
     <main>
@@ -516,6 +513,10 @@
       </header>
 
       <div class="content">
+        <section class="dashboard-identity" aria-label="Estado del taller y usuario">
+          <div class="dashboard-health"><span class="pulse"></span><div><strong>Sistemas de taller en línea</strong><small>Monitoreo de bahías · activo</small></div></div>
+          <div class="dashboard-profile"><div class="avatar">TC</div><div><strong>Usuario de Transcontrol</strong><small>Perfil activo</small></div></div>
+        </section>
         <section class="heading">
           <div>
             <div class="eyebrow">● &nbsp; OPERACIÓN DE TALLER EN VIVO</div>
