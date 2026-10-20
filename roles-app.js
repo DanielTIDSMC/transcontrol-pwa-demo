@@ -14,6 +14,15 @@
 
   const style = document.createElement('style');
   style.textContent = `
+    .role-guide-backdrop{position:fixed;inset:0;z-index:500;background:#11182799;display:grid;place-items:center;padding:16px;font-family:'DM Sans',sans-serif}
+    .role-guide-card{position:relative;width:min(480px,100%);background:#fff;border:1px solid #e7e7eb;border-radius:17px;padding:24px;box-shadow:0 25px 80px #11182740}
+    .role-guide-kicker{font-size:10px;letter-spacing:1px;font-weight:800;text-transform:uppercase;color:#c5232b}
+    .role-guide-card h2{font:800 22px Manrope,sans-serif;color:#202126;margin:10px 0 8px}
+    .role-guide-card p{font-size:13px;line-height:1.6;color:#686973;margin:0;min-height:62px}
+    .role-guide-progress{height:4px;background:#eeeef0;border-radius:5px;margin:20px 0 14px;overflow:hidden}.role-guide-progress i{display:block;height:100%;background:#c5232b;border-radius:5px;transition:width .2s}
+    .role-guide-foot{display:flex;align-items:center;justify-content:space-between;gap:10px}.role-guide-count{font-size:10px;color:#858691;font-weight:700}.role-guide-actions{display:flex;gap:8px}
+    .role-guide-trigger{border:1px solid #e2e3e6;border-radius:8px;background:#fff;color:#555761;padding:8px 10px;font:700 10px 'DM Sans',sans-serif;cursor:pointer;white-space:nowrap}
+    .role-guide-close{position:absolute;right:15px;top:15px;border:0;background:#f4f4f5;border-radius:8px;width:30px;height:30px;font-size:19px;color:#555;cursor:pointer}
     .role-auth{position:fixed;inset:0;z-index:300;background:#f4f5f6;display:grid;place-items:center;padding:18px;font-family:'DM Sans',sans-serif}
     .role-auth-card{width:min(420px,100%);background:#fff;border:1px solid #e5e7eb;border-radius:18px;padding:28px;box-shadow:0 22px 70px #1118271a}
     .role-auth-card h1{font:800 24px Manrope,sans-serif;margin:5px 0 8px;color:#171719}.role-auth-card p{font-size:13px;color:#73737d;line-height:1.5;margin:0 0 22px}
@@ -75,6 +84,53 @@
     node._timer = setTimeout(() => { node.hidden = true; }, 2800);
   }
 
+  const guides = {
+    admin: [
+      ['Bienvenido, Oscar', 'Tienes acceso completo a las secciones de Transcontrol. En Tareas del taller puedes coordinar los reportes que envía el equipo.'],
+      ['Revisa los reportes', 'Abre Tareas del taller. Los reportes nuevos aparecen como Por revisar e incluyen unidad, falla y fotos.'],
+      ['Asigna y da seguimiento', 'Elige un técnico y pulsa Asignar tarea. El técnico marcará el trabajo en curso y después lo enviará a revisión.'],
+      ['Confirma el trabajo', 'Cuando aparezca Lista para revisar, revisa las fotos y el historial. Pulsa Confirmar y cerrar para completar el reporte.'],
+      ['Administra las cuentas', 'En Usuarios y accesos puedes crear cuentas de taller o coordinación, cambiar contraseñas y desactivar accesos.']
+    ],
+    coordinator: [
+      ['Bienvenida, Fernanda', 'Tu espacio está enfocado en coordinar el taller, consultar el estado de las unidades y atender reportes.'],
+      ['Revisa cada falla', 'Abre Tareas del taller. En Por revisar encontrarás la descripción, el odómetro y las fotos enviadas por el técnico.'],
+      ['Designa a quien la atiende', 'Selecciona un técnico de la lista y pulsa Asignar tarea. La asignación aparecerá en sus tareas.'],
+      ['Revisa y cierra', 'Sigue los estados En trabajo y Lista para revisar. Al verificar que quedó resuelta, pulsa Confirmar y cerrar.'],
+      ['Consulta avisos', 'El botón de notificaciones muestra los reportes y cambios recientes. Puedes volver a esta guía con Mi guía.']
+    ],
+    workshop: [
+      ['Bienvenido al taller', 'Aquí puedes reportar fallas y atender las tareas que Oscar o Fernanda te asignen. No necesitas navegar por los tableros de administración.'],
+      ['Reporta una falla', 'Pulsa Reportar falla. Selecciona el camión, escribe el odómetro, el tipo de problema y explica qué ocurrió.'],
+      ['Agrega evidencia', 'Puedes tomar o elegir hasta tres fotos. Revisa que se vea claramente la falla antes de enviar el reporte.'],
+      ['Espera la asignación', 'Al enviarlo, Oscar y Fernanda reciben el aviso. Uno de ellos designará al técnico responsable.'],
+      ['Actualiza el avance', 'En Mis tareas pulsa Comenzar trabajo cuando inicies. Al terminar, pulsa Marcar lista para revisión. Coordinación revisará y cerrará el trabajo.']
+    ]
+  };
+
+  function guideSeenKey() { return `tc-role-guide-seen:${currentUser?.username || 'user'}`; }
+
+  function closeRoleGuide() {
+    $('.role-guide-backdrop')?.remove();
+    if (currentUser) {
+      try { localStorage.setItem(guideSeenKey(), '1'); } catch { /* The guide remains available from its button. */ }
+    }
+  }
+
+  function showRoleGuide(stepIndex = 0) {
+    if (!currentUser) return;
+    const steps = guides[currentUser.role] || guides.workshop;
+    const index = Math.min(Math.max(stepIndex, 0), steps.length - 1);
+    let backdrop = $('.role-guide-backdrop');
+    if (!backdrop) {
+      backdrop = document.createElement('div');
+      backdrop.className = 'role-guide-backdrop';
+      document.body.append(backdrop);
+    }
+    const [title, description] = steps[index];
+    backdrop.innerHTML = `<section class="role-guide-card" role="dialog" aria-modal="true" aria-labelledby="roleGuideTitle"><button class="role-guide-close" type="button" data-role-guide="close" aria-label="Cerrar guía">×</button><div class="role-guide-kicker">Guía de ${esc(labels[currentUser.role])}</div><h2 id="roleGuideTitle">${esc(title)}</h2><p>${esc(description)}</p><div class="role-guide-progress"><i style="width:${Math.round((index + 1) / steps.length * 100)}%"></i></div><div class="role-guide-foot"><span class="role-guide-count">Paso ${index + 1} de ${steps.length}</span><div class="role-guide-actions"><button class="role-secondary" type="button" data-role-guide="back" ${index === 0 ? 'disabled' : ''}>Atrás</button><button class="role-primary" type="button" data-role-guide="next">${index === steps.length - 1 ? 'Terminar' : 'Siguiente'}</button></div></div></section>`;
+  }
+
   function showLogin(error = '') {
     $('.role-auth')?.remove();
     const layer = document.createElement('div');
@@ -129,6 +185,14 @@
     if (dashboardProfile) dashboardProfile.innerHTML = `<div class="avatar">${esc(user.name.split(/\s+/).slice(0, 2).map(word => word[0]).join('').toUpperCase())}</div><div><strong>${esc(user.name)}</strong><small>${esc(labels[user.role])}</small></div>`;
     const topAvatar = $('.top-actions>.avatar');
     if (topAvatar) topAvatar.textContent = user.name.split(/\s+/).slice(0, 2).map(word => word[0]).join('').toUpperCase();
+    if (!$('#roleGuideBtn')) {
+      const guideButton = document.createElement('button');
+      guideButton.type = 'button';
+      guideButton.id = 'roleGuideBtn';
+      guideButton.className = 'role-guide-trigger';
+      guideButton.textContent = 'Mi guía';
+      $('.top-actions')?.append(guideButton);
+    }
     let tools = $('.role-user-tools');
     if (!tools) {
       tools = document.createElement('div');
@@ -254,7 +318,7 @@
   async function subscribePush() {
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) return toast('Este dispositivo no permite notificaciones push.');
     const config = await request('/api/push/public-key');
-    if (!config.publicKey) return toast('Falta configurar VAPID en Render para habilitar avisos con la app cerrada.');
+    if (!config.publicKey) return toast('No hay clave VAPID disponible para habilitar avisos con la app cerrada.');
     const permission = await Notification.requestPermission();
     if (permission !== 'granted') return toast('No se concedió permiso para notificaciones.');
     const registration = await navigator.serviceWorker.ready;
@@ -278,6 +342,22 @@
   }
 
   function onRoleClick(event) {
+    if (event.target.closest('#roleGuideBtn')) { showRoleGuide(); return; }
+    if (event.target.classList.contains('role-guide-backdrop')) { closeRoleGuide(); return; }
+    const guideAction = event.target.closest('[data-role-guide]')?.dataset.roleGuide;
+    if (guideAction) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      const step = Number($('.role-guide-count')?.textContent.match(/\d+/)?.[0] || 1) - 1;
+      if (guideAction === 'close') closeRoleGuide();
+      if (guideAction === 'back') showRoleGuide(step - 1);
+      if (guideAction === 'next') {
+        const steps = guides[currentUser?.role] || guides.workshop;
+        if (step >= steps.length - 1) closeRoleGuide();
+        else showRoleGuide(step + 1);
+      }
+      return;
+    }
     if (event.target.closest('.nav button[data-section="Centro de control"]') && currentUser) {
       setTimeout(() => setProfile(currentUser), 0);
     }
@@ -381,7 +461,7 @@
       const main = $('main');
       const topbar = $('.topbar');
       topbar.querySelector('.crumb').innerHTML = `Taller Central <span style="margin:0 8px;color:#c2cbd4">/</span> <strong id="crumbCurrent">Mis tareas</strong>`;
-      topbar.querySelector('.top-actions').innerHTML = `<span class="role-chip">TALLER</span><span class="role-user-tools"><span class="role-muted">${esc(user.name)}</span><button class="role-logout" type="button">Salir</button></span>`;
+      topbar.querySelector('.top-actions').innerHTML = `<span class="role-chip">TALLER</span><button type="button" id="roleGuideBtn" class="role-guide-trigger">Guía</button><span class="role-user-tools"><span class="role-muted">${esc(user.name)}</span><button class="role-logout" type="button">Salir</button></span>`;
       $('.role-logout', topbar).addEventListener('click', async () => { await request('/api/logout', { method: 'POST', body: '{}' }).catch(() => {}); location.reload(); });
     }
     if (user.role === 'admin' || user.role === 'coordinator') {
@@ -392,6 +472,7 @@
     await refreshNotifications();
     refreshTimer = setInterval(() => { refreshNotifications(); if ($('[data-role-section="tasks"]')?.classList.contains('active')) renderTasks().catch(() => {}); }, 30_000);
     await renderTasks();
+    try { if (!localStorage.getItem(guideSeenKey())) setTimeout(() => showRoleGuide(), 450); } catch { setTimeout(() => showRoleGuide(), 450); }
   }
 
   document.addEventListener('DOMContentLoaded', async () => {
@@ -408,7 +489,7 @@
         const note = document.createElement('div');
         note.className = 'role-muted';
         note.style.cssText = 'position:fixed;bottom:8px;right:10px;z-index:40;background:#fff;padding:6px 9px;border:1px solid #eee;border-radius:7px';
-        note.textContent = 'Modo demostración: las tareas compartidas requieren el servicio de Render.';
+        note.textContent = 'Modo demostración: las tareas compartidas requieren el servicio del backend.';
         document.body.append(note);
       }
     }
