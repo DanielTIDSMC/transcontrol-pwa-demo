@@ -23,12 +23,27 @@
     .role-guide-foot{display:flex;align-items:center;justify-content:space-between;gap:10px}.role-guide-count{font-size:10px;color:#858691;font-weight:700}.role-guide-actions{display:flex;gap:8px}
     .role-guide-trigger{border:1px solid #e2e3e6;border-radius:8px;background:#fff;color:#555761;padding:8px 10px;font:700 10px 'DM Sans',sans-serif;cursor:pointer;white-space:nowrap}
     .role-guide-close{position:absolute;right:15px;top:15px;border:0;background:#f4f4f5;border-radius:8px;width:30px;height:30px;font-size:19px;color:#555;cursor:pointer}
-    .role-auth{position:fixed;inset:0;z-index:300;background:#f4f5f6;display:grid;place-items:center;padding:18px;font-family:'DM Sans',sans-serif}
-    .role-auth-card{width:min(420px,100%);background:#fff;border:1px solid #e5e7eb;border-radius:18px;padding:28px;box-shadow:0 22px 70px #1118271a}
-    .role-auth-card h1{font:800 24px Manrope,sans-serif;margin:5px 0 8px;color:#171719}.role-auth-card p{font-size:13px;color:#73737d;line-height:1.5;margin:0 0 22px}
-    .role-auth-card label,.role-form label{display:block;font-size:11px;font-weight:700;color:#555660;margin:0 0 13px}
-    .role-auth-card input,.role-form input,.role-form select,.role-form textarea,.role-select{display:block;width:100%;margin-top:6px;border:1px solid #dedee3;border-radius:9px;background:white;padding:11px 12px;color:#242429;font:inherit;font-size:13px;outline:none}
+    .role-auth{position:fixed;inset:0;z-index:300;background:radial-gradient(ellipse at 15% 15%,#393136 0,transparent 38%),#151518;display:grid;place-items:center;padding:24px;font-family:'DM Sans',sans-serif}
+    .role-auth-shell{width:min(930px,100%);min-height:540px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);overflow:hidden;background:#fff;border:1px solid #ffffff20;border-radius:22px;box-shadow:0 30px 100px #0007}
+    .role-auth-brand{position:relative;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;padding:48px;background:linear-gradient(150deg,#fff 0%,#f6f6f7 100%)}
+    .role-auth-brand:after{content:'';position:absolute;width:330px;height:330px;right:-150px;bottom:-180px;border:1px solid #c5232b19;border-radius:50%;box-shadow:0 0 0 35px #c5232b08,0 0 0 75px #c5232b05}
+    .role-auth-logo{display:block;width:min(290px,100%);height:auto;object-fit:contain;object-position:left center}
+    .role-auth-brand-copy{position:relative;z-index:1;max-width:370px;margin-top:45px}
+    .role-auth-brand-copy .role-auth-overline{font-size:10px;font-weight:800;letter-spacing:1.7px;color:#c5232b;text-transform:uppercase}
+    .role-auth-brand-copy h2{font:800 30px/1.15 Manrope,sans-serif;letter-spacing:-.8px;color:#202126;margin:13px 0 10px}
+    .role-auth-brand-copy p{font-size:13px;line-height:1.65;color:#73737d;margin:0}
+    .role-auth-brand-foot{position:relative;z-index:1;display:flex;align-items:center;gap:9px;font-size:10px;font-weight:700;color:#71727b}
+    .role-auth-brand-foot i{display:block;width:7px;height:7px;border-radius:50%;background:#21ad91;box-shadow:0 0 0 4px #21ad911c}
+    .role-auth-card{width:auto;display:flex;flex-direction:column;justify-content:center;background:#fff;border:0;border-radius:0;padding:48px 42px;box-shadow:none}
+    .role-auth-card .role-auth-overline{font-size:10px;font-weight:800;letter-spacing:1.4px;color:#c5232b;text-transform:uppercase}
+    .role-auth-card h1{font:800 27px Manrope,sans-serif;letter-spacing:-.5px;margin:10px 0 7px;color:#171719}.role-auth-card>p{font-size:12px;color:#73737d;line-height:1.55;margin:0 0 25px}
+    .role-auth-card label,.role-form label{display:block;font-size:11px;font-weight:700;color:#555660;margin:0 0 15px}
+    .role-auth-card input,.role-form input,.role-form select,.role-form textarea,.role-select{display:block;width:100%;margin-top:7px;border:1px solid #dedee3;border-radius:9px;background:white;padding:12px 13px;color:#242429;font:inherit;font-size:13px;outline:none;transition:border-color .18s,box-shadow .18s}
     .role-auth-card input:focus,.role-form input:focus,.role-form select:focus,.role-form textarea:focus{border-color:#c5232b;box-shadow:0 0 0 3px #c5232b12}
+    .role-auth-password{position:relative}.role-auth-password input{padding-right:72px}.role-auth-show{position:absolute;right:8px;top:14px;border:0;background:transparent;color:#777984;font:700 10px 'DM Sans',sans-serif;padding:8px;cursor:pointer}
+    .role-auth-submit{width:100%;min-height:46px;margin-top:3px;font-size:12px;box-shadow:0 5px 14px #c5232b2b}
+    .role-auth-help{display:block;margin-top:17px;text-align:center;color:#888994;font-size:10px;line-height:1.5}
+    @media(max-width:700px){.role-auth{padding:14px}.role-auth-shell{grid-template-columns:minmax(0,1fr);min-height:0;max-width:440px;border-radius:18px}.role-auth-brand{padding:22px 25px 18px;gap:18px}.role-auth-logo{width:180px}.role-auth-brand-copy{margin:0}.role-auth-brand-copy h2{font-size:21px;margin:7px 0 4px}.role-auth-brand-copy p{font-size:11px}.role-auth-brand-foot{display:none}.role-auth-card{padding:25px}.role-auth-card h1{font-size:24px}.role-auth-card>p{margin-bottom:18px}}
     .role-primary{border:0;border-radius:9px;background:#c5232b;color:white;padding:11px 15px;font:700 12px 'DM Sans',sans-serif;cursor:pointer}
     .role-primary:hover{background:#a91d24}.role-primary:disabled{opacity:.5;cursor:wait}
     .role-muted{font-size:11px;color:#888994}.role-error{font-size:12px;line-height:1.4;color:#a51d28;background:#fff0f1;border:1px solid #f5c9cc;padding:10px 12px;border-radius:8px;margin:0 0 13px}
@@ -54,7 +69,7 @@
     .role-user-table{width:100%;border-collapse:collapse}.role-user-table th,.role-user-table td{padding:10px 9px;text-align:left;border-bottom:1px solid #eeeef0;font-size:11px}.role-user-table th{color:#858691;text-transform:uppercase;font-size:9px;letter-spacing:.6px}.role-notification-row{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid #eeeeef}.role-notification-row:last-child{border:0}.role-notification-row i{width:7px;height:7px;border-radius:50%;background:#c5232b;margin-top:5px;flex:0 0 auto}.role-notification-row small{display:block;color:#8a8b93;font-size:10px;margin-top:3px}
     body.workshop-role .sidebar{display:none}body.workshop-role .app{display:block;min-height:100dvh}body.workshop-role main{min-height:100dvh}body.workshop-role .topbar{height:64px;padding:0 22px}body.workshop-role .topbar .crumb{font-size:11px}body.workshop-role .content{min-height:calc(100dvh - 64px);padding:24px 24px 42px}body.workshop-role #searchBtn,body.workshop-role #guideBtn{display:none}
     @media(max-width:850px){.role-two-col{grid-template-columns:1fr}.role-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}body.workshop-role .content{padding:18px 16px calc(28px + env(safe-area-inset-bottom))}}
-    @media(max-width:600px){.role-page-head{align-items:flex-start;flex-direction:column}.role-page-head h1{font-size:23px}.role-form-grid{grid-template-columns:1fr}.role-task{padding:13px}.role-task-title{font-size:13px}.role-task-foot select{max-width:none;width:100%}.role-toolbar{align-items:flex-start;flex-direction:column}.role-auth-card{padding:23px}.role-kpi{padding:12px}.role-kpi b{font-size:20px}body.workshop-role .topbar{padding:0 13px}body.workshop-role .top-actions{gap:6px}.role-user-tools .role-chip{display:none}}
+    @media(max-width:600px){.role-page-head{align-items:flex-start;flex-direction:column}.role-page-head h1{font-size:23px}.role-form-grid{grid-template-columns:1fr}.role-task{padding:13px}.role-task-title{font-size:13px}.role-task-foot select{max-width:none;width:100%}.role-toolbar{align-items:flex-start;flex-direction:column}.role-kpi{padding:12px}.role-kpi b{font-size:20px}body.workshop-role .topbar{padding:0 13px}body.workshop-role .top-actions{gap:6px}.role-user-tools .role-chip{display:none}}
   `;
   document.head.append(style);
 
@@ -131,12 +146,19 @@
     backdrop.innerHTML = `<section class="role-guide-card" role="dialog" aria-modal="true" aria-labelledby="roleGuideTitle"><button class="role-guide-close" type="button" data-role-guide="close" aria-label="Cerrar guía">×</button><div class="role-guide-kicker">Guía de ${esc(labels[currentUser.role])}</div><h2 id="roleGuideTitle">${esc(title)}</h2><p>${esc(description)}</p><div class="role-guide-progress"><i style="width:${Math.round((index + 1) / steps.length * 100)}%"></i></div><div class="role-guide-foot"><span class="role-guide-count">Paso ${index + 1} de ${steps.length}</span><div class="role-guide-actions"><button class="role-secondary" type="button" data-role-guide="back" ${index === 0 ? 'disabled' : ''}>Atrás</button><button class="role-primary" type="button" data-role-guide="next">${index === steps.length - 1 ? 'Terminar' : 'Siguiente'}</button></div></div></section>`;
   }
 
-  function showLogin(error = '') {
+  function showLogin(error = '', username = '') {
     $('.role-auth')?.remove();
     const layer = document.createElement('div');
     layer.className = 'role-auth';
-    layer.innerHTML = `<form class="role-auth-card" id="roleLogin"><div class="eyebrow">TRANSCONTROL · TALLER</div><h1>Iniciar sesión</h1><p>Entra con tu cuenta para ver las tareas y herramientas de tu perfil.</p>${error ? `<div class="role-error">${esc(error)}</div>` : ''}<label>Usuario<input name="username" autocomplete="username" required autofocus></label><label>Contraseña<input name="password" type="password" autocomplete="current-password" required></label><button class="role-primary" style="width:100%" type="submit">Entrar</button><small class="role-muted" style="display:block;margin-top:14px">Si no tienes cuenta, pídele al administrador que te dé acceso.</small></form>`;
+    layer.innerHTML = `<div class="role-auth-shell"><aside class="role-auth-brand"><img class="role-auth-logo" src="./brand-mark.png" alt="Trans Atlante"><div class="role-auth-brand-copy"><span class="role-auth-overline">TRANSCONTROL · CONTROL DE TALLER</span><h2>Mantenimiento claro.<br>Flota en movimiento.</h2><p>Reportes, técnicos y órdenes de trabajo, coordinados desde un solo lugar.</p></div><div class="role-auth-brand-foot"><i></i>Portal del equipo de mantenimiento</div></aside><form class="role-auth-card" id="roleLogin"><div class="role-auth-overline">Acceso al equipo</div><h1>Inicia sesión</h1><p>Ingresa con tu cuenta para ver el espacio de trabajo de tu perfil.</p>${error ? `<div class="role-error" role="alert">${esc(error)}</div>` : ''}<label>Usuario<input name="username" autocomplete="username" value="${esc(username)}" placeholder="Tu nombre de usuario" required autofocus></label><label>Contraseña<div class="role-auth-password"><input name="password" type="password" autocomplete="current-password" placeholder="Tu contraseña" required><button class="role-auth-show" type="button" data-show-password aria-label="Mostrar contraseña">Mostrar</button></div></label><button class="role-primary role-auth-submit" type="submit">Entrar <span aria-hidden="true">→</span></button><small class="role-auth-help">El acceso y las herramientas dependen de tu perfil.<br>Si necesitas ayuda, contacta a Oscar.</small></form></div>`;
     document.body.append(layer);
+    $('[data-show-password]', layer).addEventListener('click', event => {
+      const input = $('[name="password"]', layer);
+      const visible = input.type === 'password';
+      input.type = visible ? 'text' : 'password';
+      event.currentTarget.textContent = visible ? 'Ocultar' : 'Mostrar';
+      event.currentTarget.setAttribute('aria-label', `${visible ? 'Ocultar' : 'Mostrar'} contraseña`);
+    });
     $('#roleLogin').addEventListener('submit', async event => {
       event.preventDefault();
       const form = new FormData(event.currentTarget);
@@ -146,7 +168,7 @@
         const result = await request('/api/login', { method: 'POST', body: JSON.stringify({ username: form.get('username'), password: form.get('password') }) });
         layer.remove();
         await activate(result.user);
-      } catch (err) { showLogin(err.message); }
+      } catch (err) { showLogin(err.message, form.get('username')); }
     });
   }
 
