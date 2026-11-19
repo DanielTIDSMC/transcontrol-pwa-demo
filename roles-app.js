@@ -22,7 +22,6 @@
     const app = $('#app'); app.hidden = false; $('#login').hidden = true;
     $('#profile').innerHTML = `<b>${esc(user.name)}</b><small>${esc(labels[user.role])}</small>`;
     $('#logout').onclick = async () => { await request('/api/logout', { method: 'POST', body: '{}' }).catch(() => {}); location.reload(); };
-    $('#newTicket').hidden = user.role !== 'workshop';
     $('#userNav').hidden = user.role !== 'admin';
     $('#userNav').onclick = renderUsers;
     $('#ticketNav').onclick = renderTickets;
