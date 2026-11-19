@@ -2,7 +2,7 @@
 <html lang="es-MX">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#123b52"><meta name="description" content="Mesa de ayuda de TICS TransAtlante. Registra y consulta solicitudes de soporte.">
+  <meta name="theme-color" content="#c5232b"><meta name="description" content="Mesa de ayuda de TICS TransAtlante. Registra y consulta solicitudes de soporte.">
   <link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,35 +10,35 @@
   <title>Mesa de ayuda TICS · TransAtlante</title>
   <style>
     /* ============================================================
-       CSS CUSTOM PROPERTIES — THEMING SYSTEM
+       CSS CUSTOM PROPERTIES — THEMING SYSTEM (100% ROJO / CARBÓN / NEUTRO)
        ============================================================ */
     :root {
-      /* Light theme — Paleta oficial TransAtlante */
-      --bg-primary: #f8fafc;
+      /* Light theme — Sin azul: paleta Rojo TransAtlante & Carbón */
+      --bg-primary: #f5f5f7;
       --bg-card: #ffffff;
       --bg-elevated: #ffffff;
-      --bg-sidebar: #0f141c;
+      --bg-sidebar: #141414;
       --bg-sidebar-hover: rgba(255,255,255,0.06);
-      --bg-sidebar-active: rgba(197,35,43,0.14);
-      --text-primary: #0f172a;
-      --text-secondary: #475569;
-      --text-muted: #94a3b8;
+      --bg-sidebar-active: rgba(197,35,43,0.18);
+      --text-primary: #171717;
+      --text-secondary: #525252;
+      --text-muted: #8a8a8a;
       --text-sidebar: rgba(255,255,255,0.7);
       --text-sidebar-active: #ffffff;
-      --border: #e2e8f0;
-      --border-light: #f1f5f9;
+      --border: #e5e5e5;
+      --border-light: #f0f0f0;
       --brand-red: #c5232b;
       --brand-red-hover: #a81a21;
       --brand-teal: #c5232b;
-      --brand-dark: #0f141c;
+      --brand-dark: #141414;
       --accent: #c5232b;
-      --success: #059669;
+      --success: #16a34a;
       --warning: #d97706;
       --danger: #c5232b;
-      --shadow-sm: 0 1px 3px rgba(15,23,42,0.06);
-      --shadow-md: 0 4px 16px rgba(15,23,42,0.08);
-      --shadow-lg: 0 12px 40px rgba(15,23,42,0.12);
-      --shadow-xl: 0 20px 60px rgba(15,23,42,0.15);
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+      --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
       --radius-sm: 8px;
       --radius-md: 12px;
       --radius-lg: 16px;
@@ -47,31 +47,31 @@
       --transition-fast: 0.15s ease;
       --transition-normal: 0.25s ease;
       --transition-slow: 0.4s ease;
-      --glass-bg: rgba(255,255,255,0.85);
-      --glass-border: rgba(197,35,43,0.15);
-      --overlay: rgba(15,20,28,0.6);
+      --glass-bg: rgba(255,255,255,0.9);
+      --glass-border: rgba(197,35,43,0.18);
+      --overlay: rgba(0,0,0,0.65);
       --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
     [data-theme="dark"] {
-      --bg-primary: #0b0f17;
-      --bg-card: #131924;
-      --bg-elevated: #1a2230;
-      --bg-sidebar: #090c12;
+      --bg-primary: #0f0f0f;
+      --bg-card: #181818;
+      --bg-elevated: #222222;
+      --bg-sidebar: #121212;
       --bg-sidebar-hover: rgba(255,255,255,0.05);
-      --bg-sidebar-active: rgba(197,35,43,0.2);
-      --text-primary: #f1f5f9;
-      --text-secondary: #94a3b8;
-      --text-muted: #64748b;
-      --border: #222c3c;
-      --border-light: #161e2a;
+      --bg-sidebar-active: rgba(197,35,43,0.22);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a3a3a3;
+      --text-muted: #737373;
+      --border: #2a2a2a;
+      --border-light: #1f1f1f;
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
       --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
       --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
       --shadow-xl: 0 20px 60px rgba(0,0,0,0.6);
-      --glass-bg: rgba(19,25,36,0.88);
-      --glass-border: rgba(255,255,255,0.06);
-      --overlay: rgba(0,0,0,0.75);
+      --glass-bg: rgba(24,24,24,0.92);
+      --glass-border: rgba(255,255,255,0.07);
+      --overlay: rgba(0,0,0,0.8);
     }
 
     /* ============================================================
@@ -107,7 +107,7 @@
       flex-direction: column;
       justify-content: flex-end;
       padding: 60px;
-      background: linear-gradient(145deg, #0d1117 0%, #171d26 50%, #4a0d11 100%);
+      background: linear-gradient(145deg, #121212 0%, #1c1c1c 50%, #400a0d 100%);
       overflow: hidden;
     }
 
@@ -445,10 +445,10 @@
     .metric-card .metric-trend.down { color: var(--danger); }
 
     .mi-red { background: rgba(197,35,43,0.08); color: var(--brand-red); }
-    .mi-blue { background: rgba(15,23,42,0.06); color: var(--text-primary); }
-    .mi-green { background: rgba(5,150,105,0.08); color: var(--success); }
+    .mi-dark { background: rgba(0,0,0,0.06); color: var(--text-primary); }
+    .mi-green { background: rgba(22,163,74,0.08); color: var(--success); }
     .mi-amber { background: rgba(217,119,6,0.08); color: var(--warning); }
-    [data-theme="dark"] .mi-blue { background: rgba(255,255,255,0.06); color: var(--text-primary); }
+    [data-theme="dark"] .mi-dark { background: rgba(255,255,255,0.06); color: var(--text-primary); }
 
     /* Charts area */
     .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
@@ -779,7 +779,7 @@
       animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards;
       position: relative; overflow: hidden;
     }
-    .toast .toast-link { color: #7dd3fc; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .toast .toast-link { color: #ff999e; font-weight: 600; cursor: pointer; white-space: nowrap; text-decoration: underline; }
     .toast::after {
       content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
       background: rgba(255,255,255,0.3); animation: toastProgress 3s linear forwards;

@@ -307,7 +307,7 @@
             <div class="metric-card"><div class="metric-icon mi-red">${ICONS.alertCircle}</div><div class="metric-value" id="m-new">--</div><div class="metric-label">Tickets Nuevos</div><div class="metric-trend down">Por asignar</div></div>
             <div class="metric-card"><div class="metric-icon mi-amber">${ICONS.activity}</div><div class="metric-value" id="m-proc">--</div><div class="metric-label">En Atención</div><div class="metric-trend up">En proceso activo</div></div>
             <div class="metric-card"><div class="metric-icon mi-green">${ICONS.checkCircle}</div><div class="metric-value" id="m-done">--</div><div class="metric-label">Resueltos (Semana)</div><div class="metric-trend up">+15% vs sem. ant.</div></div>
-            <div class="metric-card"><div class="metric-icon mi-blue">${ICONS.clock}</div><div class="metric-value" id="m-time">--</div><div class="metric-label">Tiempo Promedio</div><div class="metric-trend down">SLA cumplimiento 94%</div></div>
+            <div class="metric-card"><div class="metric-icon mi-dark">${ICONS.clock}</div><div class="metric-value" id="m-time">--</div><div class="metric-label">Tiempo Promedio</div><div class="metric-trend down">SLA cumplimiento 94%</div></div>
           </div>
           <div class="charts-row">
             <div class="chart-card">
@@ -392,13 +392,13 @@
     const container = $('#donutContainer');
     if (!container) return;
 
-    // Paleta con el rojo institucional de TransAtlante
+    // Paleta 100% libre de azul — Rojo corporativo, carbón y neutros
     const colors = {
       pending_review: '#c5232b',
-      assigned: '#1f2937',
+      assigned: '#262626',
       in_progress: '#d97706',
-      ready_review: '#059669',
-      closed: '#64748b'
+      ready_review: '#16a34a',
+      closed: '#737373'
     };
 
     const total = Object.values(byStatus).reduce((a, b) => a + b, 0) || 1;
@@ -419,7 +419,7 @@
 
       paths.push(`
         <circle cx="${size/2}" cy="${size/2}" r="${radius}"
-          fill="none" stroke="${colors[status] || '#cbd5e1'}"
+          fill="none" stroke="${colors[status] || '#737373'}"
           stroke-width="${strokeWidth}"
           stroke-dasharray="${strokeDash}"
           transform="rotate(${rotation} ${size/2} ${size/2})"
