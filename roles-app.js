@@ -988,10 +988,12 @@
               <select name="category" required>
                 <option value="">Selecciona una categoría...</option>
                 <option value="Equipo de cómputo">Equipo de cómputo (Laptop, PC, Monitor)</option>
+                <option value="Laptops y Computadoras">Laptops y Computadoras (Diagnóstico / Oficina)</option>
+                <option value="Dispositivos móviles">Dispositivos móviles (Smartphones, Tablets de patio)</option>
                 <option value="Correo electrónico">Correo electrónico / Office 365</option>
                 <option value="Internet y red">Internet, Wi-Fi o Red interna</option>
                 <option value="Sistema o aplicación">Sistema ERP, TMS o Aplicaciones</option>
-                <option value="Impresora">Impresora o Escáner</option>
+                <option value="Impresora">Impresora o Escáner (Zebra / Láser)</option>
                 <option value="Telefonía">Telefonía / Conmutador</option>
                 <option value="Accesos y contraseñas">Accesos y restablecimiento de contraseña</option>
                 <option value="Otro">Otro requerimiento</option>

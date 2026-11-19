@@ -219,11 +219,11 @@ async function initialize() {
       },
       {
         id: 'TIC-EQ901',
-        category: 'Equipo de cómputo',
+        category: 'Laptops y Computadoras',
         priority: 'Media',
         location: 'Patio Central de Maniobras',
-        title: 'Laptop robusta de inspección no enciende',
-        description: 'Equipo de diagnóstico OBD con batería descargada y cargador averiado.',
+        title: 'Laptop de diagnóstico OBD no enciende',
+        description: 'Equipo de diagnóstico OBD con batería descargada y cargador dañado tras uso en bahía.',
         photos: [],
         createdBy: 'workshop-1',
         createdByName: 'Colaborador de prueba',
@@ -235,6 +235,46 @@ async function initialize() {
         events: [],
         comments: [
           { id: 'c5', taskId: 'TIC-EQ901', userId: 'fernanda', userName: 'Soporte TICS', text: 'Se reemplazó fuente de alimentación de 19V.', createdAt: ago(400) }
+        ]
+      },
+      {
+        id: 'TIC-MB302',
+        category: 'Dispositivos móviles',
+        priority: 'Alta',
+        location: 'Patio y Maniobras',
+        title: 'Reparación de pantalla estrellada en smartphone de supervisor',
+        description: 'Celular corporativo con display dañado por impacto en patio. No responde el touch para validar salida de tractos.',
+        photos: [],
+        createdBy: 'workshop-1',
+        createdByName: 'Colaborador de prueba',
+        assigneeId: 'fernanda',
+        assigneeName: 'Soporte TICS',
+        status: 'in_progress',
+        createdAt: ago(90),
+        updatedAt: ago(20),
+        events: [],
+        comments: [
+          { id: 'c6', taskId: 'TIC-MB302', userId: 'fernanda', userName: 'Soporte TICS', text: 'Se entregó equipo provisional mientras se reemplaza módulo de pantalla.', createdAt: ago(20) }
+        ]
+      },
+      {
+        id: 'TIC-LP405',
+        category: 'Laptops y Computadoras',
+        priority: 'Media',
+        location: 'Oficinas Administrativas / Tráfico',
+        title: 'Mantenimiento preventivo y limpieza de laptop ejecutiva',
+        description: 'Equipo Dell con sobrecalentamiento, teclado trabado y lentitud para abrir reportes de facturación.',
+        photos: [],
+        createdBy: 'workshop-1',
+        createdByName: 'Colaborador de prueba',
+        assigneeId: 'fernanda',
+        assigneeName: 'Soporte TICS',
+        status: 'assigned',
+        createdAt: ago(150),
+        updatedAt: ago(70),
+        events: [],
+        comments: [
+          { id: 'c7', taskId: 'TIC-LP405', userId: 'fernanda', userName: 'Soporte TICS', text: 'Programado cambio de pasta térmica y teclado.', createdAt: ago(70) }
         ]
       }
     ];
@@ -514,7 +554,18 @@ async function handleApi(req, res, url) {
     const priority = body.priority;
     const title = cleanText(body.title, 140);
     const description = cleanText(body.description, 1500);
-    const categories = ['Equipo de cómputo', 'Correo electrónico', 'Internet y red', 'Sistema o aplicación', 'Impresora', 'Telefonía', 'Accesos y contraseñas', 'Otro'];
+    const categories = [
+      'Equipo de cómputo',
+      'Laptops y Computadoras',
+      'Dispositivos móviles',
+      'Correo electrónico',
+      'Internet y red',
+      'Sistema o aplicación',
+      'Impresora',
+      'Telefonía',
+      'Accesos y contraseñas',
+      'Otro'
+    ];
     if (!categories.includes(category) || !title || !description || !['Baja', 'Media', 'Alta'].includes(priority)) {
       return fail(res, 400, 'Completa área, prioridad, asunto y descripción del ticket.');
     }
