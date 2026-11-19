@@ -305,10 +305,16 @@
               <h1>Soporte Tecnológico Integral</h1>
               <p>Mesa de servicio técnico de TICS para las áreas Administrativas (Oficinas/Tráfico) y Taller Operativo (Piso/Refacciones).</p>
             </div>
-            <button class="btn btn-secondary" id="btnPrintReport" style="display:inline-flex; align-items:center; gap:8px;">
-              ${ICONS.tickets}
-              <span>Imprimir Bitácora TICS</span>
-            </button>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="btn btn-secondary" id="btnExportExcel" style="display:inline-flex; align-items:center; gap:8px;">
+                ${ICONS.download}
+                <span>Exportar Excel / CSV</span>
+              </button>
+              <button class="btn btn-secondary" id="btnPrintReport" style="display:inline-flex; align-items:center; gap:8px;">
+                ${ICONS.tickets}
+                <span>Imprimir Bitácora TICS</span>
+              </button>
+            </div>
           </div>
           <div class="metrics-row">
             <div class="metric-card"><div class="metric-icon mi-red">${ICONS.alertCircle}</div><div class="metric-value" id="m-new">--</div><div class="metric-label">Tickets Nuevos</div><div class="metric-trend down">Por asignar</div></div>
@@ -409,6 +415,11 @@
 
       // Draw Activity Feed
       drawActivityFeed(tasks);
+
+      // Export CSV/Excel listener
+      $('#btnExportExcel')?.addEventListener('click', () => {
+        exportTicketsToCSV(tasks);
+      });
 
       // Print report button listener
       $('#btnPrintReport')?.addEventListener('click', () => {
@@ -866,7 +877,13 @@
         </div>
 
         <div class="ticket-actions">
-          <div>${controls}</div>
+          <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+            ${controls}
+            <button class="btn btn-secondary btn-sm" data-action="print-ticket" data-id="${esc(ticket.id)}" style="display:inline-flex; align-items:center; gap:5px;" title="Generar vale de recepción/entrega físico">
+              ${ICONS.tickets}
+              <span>Vale de Servicio</span>
+            </button>
+          </div>
           <small>Actualizado ${formatTimeAgo(ticket.updatedAt)}</small>
         </div>
 
@@ -895,6 +912,12 @@
           toast('Estado de ticket actualizado.');
           await fetchAndRenderTicketsSilent();
         } catch (err) { toast(err.message); }
+      }
+
+      if (action === 'print-ticket') {
+        const ticket = allCachedTasks.find(t => t.id === id);
+        if (ticket) printSingleTicketOrder(ticket);
+        return;
       }
 
       if (action === 'close') {
@@ -1317,6 +1340,140 @@
     } catch {
       // Session might have expired
     }
+  }
+
+  // ==========================================
+  // EXPORT TO CSV / EXCEL & PRINT SINGLE TICKET
+  // ==========================================
+  function exportTicketsToCSV(tasks) {
+    if (!tasks || !tasks.length) return toast('No hay tickets disponibles para exportar.');
+    const headers = ['ID Ticket', 'Fecha Creación', 'Categoría', 'Prioridad', 'Estado', 'Ubicación / Área', 'Asunto', 'Descripción', 'Reportó', 'Técnico TICS Asignado', 'Comentarios'];
+    
+    const rows = tasks.map(t => {
+      const commentsText = (t.comments || []).map(c => `[${c.userName}]: ${c.text}`).join(' | ');
+      return [
+        t.id,
+        new Date(t.createdAt).toLocaleString('es-MX'),
+        t.category || '',
+        t.priority || '',
+        statusLabels[t.status] || t.status,
+        t.location || '',
+        t.title || '',
+        t.description || '',
+        t.createdByName || '',
+        t.assigneeName || 'Sin asignar',
+        commentsText
+      ].map(field => `"${String(field).replace(/"/g, '""')}"`).join(',');
+    });
+
+    const csvContent = '\uFEFF' + [headers.join(','), ...rows].join('\r\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Reporte_Tickets_TICS_TransAtlante_${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast('Reporte Excel / CSV descargado.');
+  }
+
+  function printSingleTicketOrder(ticket) {
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) return toast('Habilita las ventanas emergentes para imprimir la orden.');
+
+    const commentsHtml = (ticket.comments || []).map(c => `
+      <div style="margin-bottom:6px; font-size:12px;">
+        <b>${c.userName}</b> (${new Date(c.createdAt).toLocaleTimeString('es-MX')}): ${c.text}
+      </div>
+    `).join('') || '<em style="color:#777;">Sin notas registradas.</em>';
+
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html lang="es-MX">
+      <head>
+        <meta charset="utf-8">
+        <title>Orden de Servicio - ${ticket.id}</title>
+        <style>
+          body { font-family: 'Inter', -apple-system, sans-serif; margin: 30px; color: #111; }
+          .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #c5232b; padding-bottom: 12px; margin-bottom: 20px; }
+          .brand { font-size: 20px; font-weight: 800; color: #c5232b; letter-spacing: -0.5px; }
+          .badge { background: #eee; padding: 4px 10px; border-radius: 6px; font-size: 13px; font-weight: 700; }
+          .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; font-size: 13px; }
+          .box { border: 1px solid #ddd; border-radius: 8px; padding: 12px; background: #fafafa; }
+          .box-title { font-weight: 700; font-size: 11px; text-transform: uppercase; color: #666; margin-bottom: 6px; }
+          .section { margin-top: 18px; }
+          .section-title { font-size: 14px; font-weight: 700; border-bottom: 1px solid #ddd; padding-bottom: 4px; margin-bottom: 8px; }
+          .signatures { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 60px; text-align: center; }
+          .sig-line { border-top: 1px solid #000; padding-top: 6px; font-size: 13px; }
+          @media print {
+            body { margin: 15mm; }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <div>
+            <div class="brand">TRANSATLANTE · SOPORTE TICS</div>
+            <div style="font-size:12px; color:#555;">Vale de Servicio y Diagnóstico Técnico</div>
+          </div>
+          <div>
+            <span class="badge">FOLIO: ${ticket.id}</span>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="box">
+            <div class="box-title">Datos del Requerimiento</div>
+            <div><b>Fecha:</b> ${new Date(ticket.createdAt).toLocaleString('es-MX')}</div>
+            <div><b>Área / Ubicación:</b> ${ticket.location || 'Base Principal'}</div>
+            <div><b>Categoría:</b> ${ticket.category}</div>
+            <div><b>Prioridad:</b> ${ticket.priority}</div>
+          </div>
+          <div class="box">
+            <div class="box-title">Responsables</div>
+            <div><b>Solicitante:</b> ${ticket.createdByName}</div>
+            <div><b>Técnico TICS Asignado:</b> ${ticket.assigneeName || 'En asignación'}</div>
+            <div><b>Estado Actual:</b> ${statusLabels[ticket.status] || ticket.status}</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Descripción del Equipo / Falla Reportada</div>
+          <p style="font-size:14px; line-height:1.5; margin:0 0 10px 0;"><b>${ticket.title}</b></p>
+          <div style="font-size:13px; background:#fff; border:1px solid #ddd; border-radius:6px; padding:10px;">${ticket.description}</div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Bitácora de Atención y Diagnóstico</div>
+          <div style="background:#fff; border:1px solid #ddd; border-radius:6px; padding:10px;">
+            ${commentsHtml}
+          </div>
+        </div>
+
+        <div class="signatures">
+          <div>
+            <div class="sig-line">
+              <b>Entrega / Solicitante</b><br>
+              <small>${ticket.createdByName}</small>
+            </div>
+          </div>
+          <div>
+            <div class="sig-line">
+              <b>Recibe / Técnico TICS</b><br>
+              <small>${ticket.assigneeName || 'Personal Soporte TICS'}</small>
+            </div>
+          </div>
+        </div>
+
+        <script>
+          window.onload = () => { window.print(); };
+        </script>
+      </body>
+      </html>
+    `);
+    printWindow.document.close();
   }
 
   // ==========================================
