@@ -13,31 +13,32 @@
        CSS CUSTOM PROPERTIES — THEMING SYSTEM
        ============================================================ */
     :root {
-      /* Light theme */
-      --bg-primary: #f0f4f7;
+      /* Light theme — Paleta oficial TransAtlante */
+      --bg-primary: #f8fafc;
       --bg-card: #ffffff;
       --bg-elevated: #ffffff;
-      --bg-sidebar: #123b52;
-      --bg-sidebar-hover: rgba(255,255,255,0.08);
-      --bg-sidebar-active: rgba(255,255,255,0.14);
-      --text-primary: #1a2b36;
-      --text-secondary: #64748b;
+      --bg-sidebar: #0f141c;
+      --bg-sidebar-hover: rgba(255,255,255,0.06);
+      --bg-sidebar-active: rgba(197,35,43,0.14);
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
       --text-muted: #94a3b8;
       --text-sidebar: rgba(255,255,255,0.7);
       --text-sidebar-active: #ffffff;
       --border: #e2e8f0;
       --border-light: #f1f5f9;
       --brand-red: #c5232b;
-      --brand-teal: #15566e;
-      --brand-dark: #123b52;
-      --accent: #2584a0;
+      --brand-red-hover: #a81a21;
+      --brand-teal: #c5232b;
+      --brand-dark: #0f141c;
+      --accent: #c5232b;
       --success: #059669;
       --warning: #d97706;
-      --danger: #dc2626;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
-      --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
-      --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
-      --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+      --danger: #c5232b;
+      --shadow-sm: 0 1px 3px rgba(15,23,42,0.06);
+      --shadow-md: 0 4px 16px rgba(15,23,42,0.08);
+      --shadow-lg: 0 12px 40px rgba(15,23,42,0.12);
+      --shadow-xl: 0 20px 60px rgba(15,23,42,0.15);
       --radius-sm: 8px;
       --radius-md: 12px;
       --radius-lg: 16px;
@@ -46,31 +47,31 @@
       --transition-fast: 0.15s ease;
       --transition-normal: 0.25s ease;
       --transition-slow: 0.4s ease;
-      --glass-bg: rgba(255,255,255,0.75);
-      --glass-border: rgba(255,255,255,0.3);
-      --overlay: rgba(0,0,0,0.5);
+      --glass-bg: rgba(255,255,255,0.85);
+      --glass-border: rgba(197,35,43,0.15);
+      --overlay: rgba(15,20,28,0.6);
       --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
     [data-theme="dark"] {
-      --bg-primary: #0f172a;
-      --bg-card: #1e293b;
-      --bg-elevated: #273548;
-      --bg-sidebar: #0c1929;
-      --bg-sidebar-hover: rgba(255,255,255,0.06);
-      --bg-sidebar-active: rgba(255,255,255,0.1);
-      --text-primary: #e2e8f0;
+      --bg-primary: #0b0f17;
+      --bg-card: #131924;
+      --bg-elevated: #1a2230;
+      --bg-sidebar: #090c12;
+      --bg-sidebar-hover: rgba(255,255,255,0.05);
+      --bg-sidebar-active: rgba(197,35,43,0.2);
+      --text-primary: #f1f5f9;
       --text-secondary: #94a3b8;
       --text-muted: #64748b;
-      --border: #334155;
-      --border-light: #1e293b;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
-      --shadow-md: 0 4px 16px rgba(0,0,0,0.3);
-      --shadow-lg: 0 12px 40px rgba(0,0,0,0.4);
-      --shadow-xl: 0 20px 60px rgba(0,0,0,0.5);
-      --glass-bg: rgba(30,41,59,0.8);
-      --glass-border: rgba(255,255,255,0.08);
-      --overlay: rgba(0,0,0,0.7);
+      --border: #222c3c;
+      --border-light: #161e2a;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
+      --shadow-xl: 0 20px 60px rgba(0,0,0,0.6);
+      --glass-bg: rgba(19,25,36,0.88);
+      --glass-border: rgba(255,255,255,0.06);
+      --overlay: rgba(0,0,0,0.75);
     }
 
     /* ============================================================
@@ -106,7 +107,7 @@
       flex-direction: column;
       justify-content: flex-end;
       padding: 60px;
-      background: linear-gradient(145deg, var(--brand-dark) 0%, var(--brand-teal) 60%, #1a7a9a 100%);
+      background: linear-gradient(145deg, #0d1117 0%, #171d26 50%, #4a0d11 100%);
       overflow: hidden;
     }
 
@@ -223,12 +224,12 @@
 
     .btn-login {
       width: 100%; padding: 14px; border: none; border-radius: var(--radius-sm);
-      background: linear-gradient(135deg, var(--brand-teal), var(--brand-dark));
+      background: linear-gradient(135deg, var(--brand-red), #9b181e);
       color: white; font-size: 15px; font-weight: 700;
       position: relative; overflow: hidden;
       transition: transform var(--transition-fast), box-shadow var(--transition-fast);
     }
-    .btn-login:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(21,86,110,0.35); }
+    .btn-login:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(197,35,43,0.35); }
     .btn-login:active { transform: translateY(0); }
     .btn-login .btn-spinner {
       display: none; width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,0.3);
@@ -287,7 +288,7 @@
       background: var(--bg-sidebar-active); color: var(--text-sidebar-active);
       border-left-color: var(--brand-red);
     }
-    .nav-item .nav-icon { font-size: 18px; flex-shrink: 0; width: 24px; text-align: center; }
+    .nav-item .nav-icon { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 22px; height: 22px; }
     .nav-item .nav-label { overflow: hidden; text-overflow: ellipsis; }
 
     .sidebar-footer {
@@ -444,9 +445,10 @@
     .metric-card .metric-trend.down { color: var(--danger); }
 
     .mi-red { background: rgba(197,35,43,0.08); color: var(--brand-red); }
-    .mi-blue { background: rgba(37,132,160,0.1); color: var(--accent); }
-    .mi-green { background: rgba(5,150,105,0.1); color: var(--success); }
-    .mi-amber { background: rgba(217,119,6,0.1); color: var(--warning); }
+    .mi-blue { background: rgba(15,23,42,0.06); color: var(--text-primary); }
+    .mi-green { background: rgba(5,150,105,0.08); color: var(--success); }
+    .mi-amber { background: rgba(217,119,6,0.08); color: var(--warning); }
+    [data-theme="dark"] .mi-blue { background: rgba(255,255,255,0.06); color: var(--text-primary); }
 
     /* Charts area */
     .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
@@ -563,10 +565,11 @@
       font-size: 11px; font-weight: 700; white-space: nowrap;
     }
     .status-pill.pending_review { background: rgba(197,35,43,0.1); color: var(--brand-red); }
-    .status-pill.assigned { background: rgba(37,132,160,0.1); color: var(--accent); }
+    .status-pill.assigned { background: rgba(15,23,42,0.08); color: var(--text-primary); }
     .status-pill.in_progress { background: rgba(217,119,6,0.1); color: var(--warning); }
     .status-pill.ready_review { background: rgba(5,150,105,0.1); color: var(--success); }
-    .status-pill.closed { background: var(--bg-primary); color: var(--text-muted); }
+    .status-pill.closed { background: var(--border-light); color: var(--text-muted); }
+    [data-theme="dark"] .status-pill.assigned { background: rgba(255,255,255,0.08); color: #cbd5e1; }
 
     .ticket > p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin: 12px 0; white-space: pre-wrap; }
 
@@ -576,7 +579,8 @@
       margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-light);
     }
     .meta-row b { color: var(--text-primary); font-weight: 600; }
-    .meta-row .meta-item { display: flex; align-items: center; gap: 4px; }
+    .meta-row .meta-item { display: flex; align-items: center; gap: 6px; }
+    .meta-row .meta-item svg { flex-shrink: 0; color: var(--text-muted); }
 
     .ticket-actions {
       display: flex; justify-content: space-between; align-items: center; gap: 12px;
@@ -946,15 +950,15 @@
       <nav class="sidebar-nav">
         <div class="nav-section">Principal</div>
         <button class="nav-item active" id="dashboardNav" type="button">
-          <span class="nav-icon">📊</span>
+          <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg></span>
           <span class="nav-label">Dashboard</span>
         </button>
         <button class="nav-item" id="ticketNav" type="button">
-          <span class="nav-icon">📋</span>
+          <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
           <span class="nav-label">Tickets</span>
         </button>
         <button class="nav-item" id="userNav" type="button" hidden>
-          <span class="nav-icon">👥</span>
+          <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
           <span class="nav-label">Usuarios</span>
         </button>
       </nav>
@@ -967,7 +971,7 @@
           </div>
         </div>
         <button class="btn-logout" id="logout" type="button">
-          <span>🚪</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
           <span>Cerrar sesión</span>
         </button>
       </div>
@@ -977,22 +981,28 @@
     <div class="main-wrapper">
       <header class="topbar">
         <div class="topbar-left">
-          <button class="menu-toggle" id="menuToggle" type="button" aria-label="Menú">☰</button>
+          <button class="menu-toggle" id="menuToggle" type="button" aria-label="Menú">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
           <span class="topbar-title" id="pageTitle">Dashboard</span>
         </div>
         <div class="topbar-right">
           <div class="search-box">
-            <span class="search-icon">🔍</span>
+            <span class="search-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </span>
             <input type="search" id="globalSearch" placeholder="Buscar tickets..." aria-label="Buscar">
           </div>
           <div class="notification-wrap">
             <button class="topbar-btn" id="bellBtn" type="button" aria-label="Notificaciones">
-              🔔
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
               <span class="badge" id="notifBadge"></span>
             </button>
             <div class="notification-panel" id="notificationPanel"></div>
           </div>
-          <button class="topbar-btn" id="themeToggle" type="button" aria-label="Cambiar tema">🌙</button>
+          <button class="topbar-btn" id="themeToggle" type="button" aria-label="Cambiar tema">
+            <svg class="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
         </div>
       </header>
       <main class="main-content" id="content"></main>
@@ -1002,15 +1012,15 @@
     <nav class="bottom-nav" id="bottomNav">
       <div class="bottom-nav-inner">
         <button class="bottom-nav-item active" data-nav="dashboard">
-          <span class="bnav-icon">📊</span>
+          <span class="bnav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg></span>
           Dashboard
         </button>
         <button class="bottom-nav-item" data-nav="tickets">
-          <span class="bnav-icon">📋</span>
+          <span class="bnav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
           Tickets
         </button>
         <button class="bottom-nav-item" data-nav="users" hidden>
-          <span class="bnav-icon">👥</span>
+          <span class="bnav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
           Usuarios
         </button>
       </div>

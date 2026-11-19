@@ -7,6 +7,41 @@
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   }[char]));
 
+  // ==========================================
+  // LIBRERÍA DE ICONOS SVG MINIMALISTAS
+  // ==========================================
+  const ICONS = {
+    dashboard: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>',
+    tickets: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>',
+    users: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+    plus: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>',
+    play: '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="6 4 20 12 6 20 6 4"/></svg>',
+    check: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+    lock: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>',
+    search: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',
+    bell: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>',
+    sun: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>',
+    moon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
+    alertCircle: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+    activity: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>',
+    checkCircle: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+    clock: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+    messageSquare: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+    mapPin: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+    user: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+    wrench: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>',
+    camera: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>',
+    // Categorías de soporte
+    computer: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>',
+    mail: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',
+    network: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+    app: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
+    printer: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>',
+    phone: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
+    key: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-1.5 1.5L14 9l-3 3-2-2-4 4 2 2-2 2 4 4 2-2 2 2 4-4-2-2 3.5-3.5L22 4z"/><circle cx="7.5" cy="16.5" r="1.5"/></svg>',
+    box: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>'
+  };
+
   const roleLabels = { admin: 'Administrador TICS', coordinator: 'Equipo TICS', workshop: 'Colaborador' };
   const roleClasses = { admin: 'role-admin', coordinator: 'role-coordinator', workshop: 'role-workshop' };
   const statusLabels = {
@@ -16,15 +51,16 @@
     ready_review: 'Resuelto',
     closed: 'Cerrado'
   };
+
   const categoryIcons = {
-    'Equipo de cómputo': '💻',
-    'Correo electrónico': '✉️',
-    'Internet y red': '🌐',
-    'Sistema o aplicación': '⚙️',
-    'Impresora': '🖨️',
-    'Telefonía': '📞',
-    'Accesos y contraseñas': '🔑',
-    'Otro': '📦'
+    'Equipo de cómputo': ICONS.computer,
+    'Correo electrónico': ICONS.mail,
+    'Internet y red': ICONS.network,
+    'Sistema o aplicación': ICONS.app,
+    'Impresora': ICONS.printer,
+    'Telefonía': ICONS.phone,
+    'Accesos y contraseñas': ICONS.key,
+    'Otro': ICONS.box
   };
 
   let currentUser = null;
@@ -94,7 +130,10 @@
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('tc_theme', theme);
     const btn = $('#themeToggle');
-    if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+    if (btn) {
+      btn.innerHTML = theme === 'dark' ? ICONS.sun : ICONS.moon;
+      btn.setAttribute('title', theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
+    }
   }
 
   // ==========================================
@@ -235,7 +274,6 @@
     try {
       sseSource = new EventSource('/api/events/stream');
       sseSource.addEventListener('task_update', (e) => {
-        const data = JSON.parse(e.data || '{}');
         refreshNotifications();
         if (currentView === 'tickets') {
           fetchAndRenderTicketsSilent();
@@ -266,10 +304,10 @@
             <p>Monitoreo en tiempo real de requerimientos de soporte, tiempos de atención y distribución de incidencias.</p>
           </div>
           <div class="metrics-row">
-            <div class="metric-card"><div class="metric-icon mi-red">🚨</div><div class="metric-value" id="m-new">--</div><div class="metric-label">Tickets Nuevos</div><div class="metric-trend down">Por asignar</div></div>
-            <div class="metric-card"><div class="metric-icon mi-amber">⚡</div><div class="metric-value" id="m-proc">--</div><div class="metric-label">En Atención</div><div class="metric-trend up">En proceso activo</div></div>
-            <div class="metric-card"><div class="metric-icon mi-green">✅</div><div class="metric-value" id="m-done">--</div><div class="metric-label">Resueltos (Semana)</div><div class="metric-trend up">+15% vs sem. ant.</div></div>
-            <div class="metric-card"><div class="metric-icon mi-blue">⏱️</div><div class="metric-value" id="m-time">--</div><div class="metric-label">Tiempo Promedio</div><div class="metric-trend down">SLA cumplimiento 94%</div></div>
+            <div class="metric-card"><div class="metric-icon mi-red">${ICONS.alertCircle}</div><div class="metric-value" id="m-new">--</div><div class="metric-label">Tickets Nuevos</div><div class="metric-trend down">Por asignar</div></div>
+            <div class="metric-card"><div class="metric-icon mi-amber">${ICONS.activity}</div><div class="metric-value" id="m-proc">--</div><div class="metric-label">En Atención</div><div class="metric-trend up">En proceso activo</div></div>
+            <div class="metric-card"><div class="metric-icon mi-green">${ICONS.checkCircle}</div><div class="metric-value" id="m-done">--</div><div class="metric-label">Resueltos (Semana)</div><div class="metric-trend up">+15% vs sem. ant.</div></div>
+            <div class="metric-card"><div class="metric-icon mi-blue">${ICONS.clock}</div><div class="metric-value" id="m-time">--</div><div class="metric-label">Tiempo Promedio</div><div class="metric-trend down">SLA cumplimiento 94%</div></div>
           </div>
           <div class="charts-row">
             <div class="chart-card">
@@ -309,7 +347,7 @@
       const timeEl = $('#m-time');
       if (timeEl) timeEl.textContent = avgHours;
 
-      // Draw SVG Donut Chart
+      // Draw SVG Donut Chart with brand colors
       drawDonutChart(stats?.byStatus || {
         pending_review: newCount,
         assigned: tasks.filter(t => t.status === 'assigned').length,
@@ -354,9 +392,10 @@
     const container = $('#donutContainer');
     if (!container) return;
 
+    // Paleta con el rojo institucional de TransAtlante
     const colors = {
       pending_review: '#c5232b',
-      assigned: '#2584a0',
+      assigned: '#1f2937',
       in_progress: '#d97706',
       ready_review: '#059669',
       closed: '#64748b'
@@ -403,8 +442,8 @@
           ${paths.join('')}
         </svg>
         <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; pointer-events:none;">
-          <b style="font-size:22px; font-weight:800;">${total}</b>
-          <span style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">Tickets</span>
+          <b style="font-size:22px; font-weight:800; color:var(--text-primary);">${total}</b>
+          <span style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px;">Tickets</span>
         </div>
       </div>
       <div class="donut-legend">${legendItems.join('')}</div>
@@ -424,10 +463,13 @@
     const max = Math.max(...entries.map(e => e[1])) || 1;
     const html = entries.map(([category, count]) => {
       const pct = Math.round((count / max) * 100);
-      const icon = categoryIcons[category] || '📦';
+      const icon = categoryIcons[category] || ICONS.box;
       return `
         <div class="bar-row">
-          <div class="bar-label" title="${esc(category)}">${icon} ${esc(category)}</div>
+          <div class="bar-label" title="${esc(category)}" style="display:flex; align-items:center; justify-content:flex-end; gap:6px;">
+            <span>${icon}</span>
+            <span>${esc(category)}</span>
+          </div>
           <div class="bar-track">
             <div class="bar-fill" style="width:${pct}%;"></div>
           </div>
@@ -443,7 +485,6 @@
     const container = $('#activityContainer');
     if (!container) return;
 
-    // Collect all events across tasks
     const events = [];
     tasks.forEach(t => {
       if (t.activity && Array.isArray(t.activity)) {
@@ -461,11 +502,11 @@
 
     container.innerHTML = recent.map(item => `
       <div class="activity-item">
-        <div class="activity-avatar" style="background:var(--brand-teal);">
+        <div class="activity-avatar" style="background:var(--brand-red);">
           ${getInitials(item.userName)}
         </div>
         <div class="activity-info">
-          <p><b>${esc(item.userName)}</b> ${esc(item.detail)} en <b style="color:var(--accent);">${esc(item.taskIdentifier || '')}</b></p>
+          <p><b>${esc(item.userName)}</b> ${esc(item.detail)} en <b style="color:var(--brand-red);">${esc(item.taskIdentifier || '')}</b></p>
           <div class="activity-time">${formatTimeAgo(item.createdAt)} · ${new Date(item.createdAt).toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' })}</div>
         </div>
       </div>
@@ -506,7 +547,7 @@
             <h1>${isWorkshop ? 'Mis Solicitudes' : 'Control de Órdenes de Servicio'}</h1>
             <p>${isWorkshop ? 'Reporta incidentes de tus equipos y consulta su progreso.' : 'Seguimiento, asignación y resolución de solicitudes técnicas.'}</p>
           </div>
-          ${isWorkshop ? '<button class="btn btn-primary" id="btnNewTicket" style="font-size:14px; padding:12px 20px;">＋ Levantar Ticket</button>' : ''}
+          ${isWorkshop ? `<button class="btn btn-primary" id="btnNewTicket" style="font-size:13px; padding:11px 18px; display:inline-flex; align-items:center; gap:8px;">${ICONS.plus}<span>Levantar Ticket</span></button>` : ''}
         </div>
 
         <div class="filter-bar">
@@ -519,13 +560,13 @@
           
           <select id="prioritySelect" class="filter-chip" style="outline:none; cursor:pointer;">
             <option value="all">Prioridad: Todas</option>
-            <option value="Alta">🔴 Alta</option>
-            <option value="Media">🟡 Media</option>
-            <option value="Baja">🟢 Baja</option>
+            <option value="Alta">Alta</option>
+            <option value="Media">Media</option>
+            <option value="Baja">Baja</option>
           </select>
 
           <div class="filter-search">
-            <span class="fs-icon">🔍</span>
+            <span class="fs-icon">${ICONS.search}</span>
             <input type="search" id="filterInput" placeholder="Filtrar por texto..." value="${esc(searchQuery)}">
           </div>
         </div>
@@ -612,7 +653,9 @@
     if (!filtered.length) {
       container.innerHTML = `
         <div class="empty-state">
-          <div class="empty-icon">📭</div>
+          <div class="empty-icon" style="display:flex; justify-content:center; color:var(--text-muted); margin-bottom:12px;">
+            ${ICONS.tickets}
+          </div>
           <h3>No se encontraron tickets</h3>
           <p>No hay solicitudes que coincidan con los criterios de búsqueda o filtros seleccionados.</p>
         </div>
@@ -635,17 +678,17 @@
     const isAssignedToMe = ticket.assigneeId === currentUser.id;
 
     const pClass = ticket.priority === 'Alta' ? 'p-alta' : ticket.priority === 'Media' ? 'p-media' : 'p-baja';
-    const catIcon = categoryIcons[ticket.category] || '📦';
+    const catIcon = categoryIcons[ticket.category] || ICONS.box;
 
     // Controls
     let controls = '';
     if (currentUser.role === 'coordinator' && isAssignedToMe && ticket.status === 'assigned') {
-      controls = `<button class="btn btn-primary btn-sm" data-action="status" data-status="in_progress" data-id="${esc(ticket.id)}">▶ Iniciar Atención</button>`;
+      controls = `<button class="btn btn-primary btn-sm" data-action="status" data-status="in_progress" data-id="${esc(ticket.id)}" style="display:inline-flex; align-items:center; gap:6px;">${ICONS.play}<span>Iniciar Atención</span></button>`;
     } else if (currentUser.role === 'coordinator' && isAssignedToMe && ticket.status === 'in_progress') {
-      controls = `<button class="btn btn-primary btn-sm" data-action="status" data-status="ready_review" data-id="${esc(ticket.id)}">✓ Marcar como Resuelto</button>`;
+      controls = `<button class="btn btn-primary btn-sm" data-action="status" data-status="ready_review" data-id="${esc(ticket.id)}" style="display:inline-flex; align-items:center; gap:6px;">${ICONS.check}<span>Marcar Resuelto</span></button>`;
     } else if (isManager && ticket.status !== 'closed') {
       if (ticket.status === 'ready_review' && isAdmin) {
-        controls = `<button class="btn btn-primary btn-sm" data-action="close" data-id="${esc(ticket.id)}">🔒 Cerrar y Archivar</button>`;
+        controls = `<button class="btn btn-primary btn-sm" data-action="close" data-id="${esc(ticket.id)}" style="display:inline-flex; align-items:center; gap:6px;">${ICONS.lock}<span>Cerrar Ticket</span></button>`;
       } else {
         controls = `
           <div style="display:flex; gap:6px; align-items:center;">
@@ -686,8 +729,9 @@
     const comments = ticket.comments || [];
     const commentsHtml = `
       <div class="comments-section">
-        <div class="comments-toggle" data-toggle-comments="${esc(ticket.id)}">
-          💬 Mensajes y Notas (${comments.length})
+        <div class="comments-toggle" data-toggle-comments="${esc(ticket.id)}" style="display:inline-flex; align-items:center; gap:6px;">
+          ${ICONS.messageSquare}
+          <span>Mensajes y Notas (${comments.length})</span>
         </div>
         <div class="comments-body" id="comments-${CSS.escape(ticket.id)}" style="display:none; margin-top:10px;">
           <div class="comments-thread">
@@ -717,7 +761,7 @@
             <h2>${esc(ticket.title)}</h2>
           </div>
           <div style="display:flex; align-items:center; gap:8px;">
-            <span class="category-badge">${catIcon} ${esc(ticket.category)}</span>
+            <span class="category-badge">${catIcon} <span>${esc(ticket.category)}</span></span>
             <span class="status-pill ${esc(ticket.status)}">${statusLabels[ticket.status] || esc(ticket.status)}</span>
           </div>
         </div>
@@ -727,10 +771,10 @@
         ${photos}
 
         <div class="meta-row">
-          <div class="meta-item">📍 Ubicación: <b>${esc(ticket.location || 'Base Principal')}</b></div>
-          <div class="meta-item">🚨 Prioridad: <b>${esc(ticket.priority)}</b></div>
-          <div class="meta-item">👤 Reportó: <b>${esc(ticket.createdByName)}</b></div>
-          <div class="meta-item">🛠️ Responsable: <b>${esc(ticket.assigneeName || 'Sin asignar')}</b></div>
+          <div class="meta-item">${ICONS.mapPin} <span>Ubicación: <b>${esc(ticket.location || 'Base Principal')}</b></span></div>
+          <div class="meta-item">${ICONS.alertCircle} <span>Prioridad: <b>${esc(ticket.priority)}</b></span></div>
+          <div class="meta-item">${ICONS.user} <span>Reportó: <b>${esc(ticket.createdByName)}</b></span></div>
+          <div class="meta-item">${ICONS.wrench} <span>Técnico: <b>${esc(ticket.assigneeName || 'Sin asignar')}</b></span></div>
         </div>
 
         <div class="ticket-actions">
@@ -855,14 +899,14 @@
               <label>Categoría del Problema</label>
               <select name="category" required>
                 <option value="">Selecciona una categoría...</option>
-                <option value="Equipo de cómputo">💻 Equipo de cómputo (Laptop, PC, Monitor)</option>
-                <option value="Correo electrónico">✉️ Correo electrónico / Office 365</option>
-                <option value="Internet y red">🌐 Internet, Wi-Fi o Red interna</option>
-                <option value="Sistema o aplicación">⚙️ Sistema ERP, TMS o Aplicaciones</option>
-                <option value="Impresora">🖨️ Impresora o Escáner</option>
-                <option value="Telefonía">📞 Telefonía / Conmutador</option>
-                <option value="Accesos y contraseñas">🔑 Accesos y restablecimiento de contraseña</option>
-                <option value="Otro">📦 Otro requerimiento</option>
+                <option value="Equipo de cómputo">Equipo de cómputo (Laptop, PC, Monitor)</option>
+                <option value="Correo electrónico">Correo electrónico / Office 365</option>
+                <option value="Internet y red">Internet, Wi-Fi o Red interna</option>
+                <option value="Sistema o aplicación">Sistema ERP, TMS o Aplicaciones</option>
+                <option value="Impresora">Impresora o Escáner</option>
+                <option value="Telefonía">Telefonía / Conmutador</option>
+                <option value="Accesos y contraseñas">Accesos y restablecimiento de contraseña</option>
+                <option value="Otro">Otro requerimiento</option>
               </select>
             </div>
 
@@ -870,9 +914,9 @@
               <div class="form-group">
                 <label>Nivel de Urgencia</label>
                 <select name="priority">
-                  <option value="Media">🟡 Prioridad Media (Operación normal)</option>
-                  <option value="Alta">🔴 Prioridad Alta (Detiene operaciones)</option>
-                  <option value="Baja">🟢 Prioridad Baja (No urgente)</option>
+                  <option value="Media">Prioridad Media (Operación normal)</option>
+                  <option value="Alta">Prioridad Alta (Detiene operaciones)</option>
+                  <option value="Baja">Prioridad Baja (No urgente)</option>
                 </select>
               </div>
               <div class="form-group">
@@ -894,7 +938,9 @@
             <div class="form-group">
               <label>Evidencia fotográfica o capturas (Opcional)</label>
               <div class="file-drop" id="fileDrop">
-                <div class="drop-icon">📸</div>
+                <div class="drop-icon" style="display:flex; justify-content:center; color:var(--brand-red); margin-bottom:8px;">
+                  ${ICONS.camera}
+                </div>
                 <p><b>Haz clic para subir</b> o arrastra hasta 3 fotos aquí</p>
                 <small style="color:var(--text-muted);">Formatos permitidos: JPG, PNG, WebP (máx. 3 MB)</small>
                 <input type="file" id="fileInput" name="photos" accept="image/*" multiple>
