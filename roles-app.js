@@ -69,6 +69,7 @@
   let activeFilter = 'all';
   let searchQuery = '';
   let priorityFilter = 'all';
+  let areaFilter = 'all';
   let sseSource = null;
   let allCachedTasks = [];
 
@@ -300,55 +301,58 @@
         <div class="view-transition">
           <div class="view-header" style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:16px;">
             <div>
-              <div class="eyebrow">CONTROL ADMINISTRATIVO & PISO DE TALLER</div>
-              <h1>Métricas Operativas de Flota</h1>
-              <p>Supervisión en tiempo real de unidades en bahía, tiempos de atención (MTTR) y órdenes activas.</p>
+              <div class="eyebrow">MESA DE AYUDA TICS · TRANSATLANTE</div>
+              <h1>Soporte Tecnológico Integral</h1>
+              <p>Mesa de servicio técnico de TICS para las áreas Administrativas (Oficinas/Tráfico) y Taller Operativo (Piso/Refacciones).</p>
             </div>
             <button class="btn btn-secondary" id="btnPrintReport" style="display:inline-flex; align-items:center; gap:8px;">
               ${ICONS.tickets}
-              <span>Imprimir Informe Ejecutivo</span>
+              <span>Imprimir Bitácora TICS</span>
             </button>
           </div>
           <div class="metrics-row">
             <div class="metric-card"><div class="metric-icon mi-red">${ICONS.alertCircle}</div><div class="metric-value" id="m-new">--</div><div class="metric-label">Tickets Nuevos</div><div class="metric-trend down">Por asignar</div></div>
-            <div class="metric-card"><div class="metric-icon mi-amber">${ICONS.activity}</div><div class="metric-value" id="m-proc">--</div><div class="metric-label">En Atención</div><div class="metric-trend up">En proceso activo</div></div>
+            <div class="metric-card"><div class="metric-icon mi-amber">${ICONS.activity}</div><div class="metric-value" id="m-proc">--</div><div class="metric-label">En Atención</div><div class="metric-trend up">En proceso por TICS</div></div>
             <div class="metric-card"><div class="metric-icon mi-green">${ICONS.checkCircle}</div><div class="metric-value" id="m-done">--</div><div class="metric-label">Resueltos (Semana)</div><div class="metric-trend up">+15% vs sem. ant.</div></div>
-            <div class="metric-card"><div class="metric-icon mi-dark">${ICONS.clock}</div><div class="metric-value" id="m-time">--</div><div class="metric-label">Tiempo Promedio</div><div class="metric-trend down">SLA cumplimiento 94%</div></div>
+            <div class="metric-card"><div class="metric-icon mi-dark">${ICONS.clock}</div><div class="metric-value" id="m-time">--</div><div class="metric-label">Tiempo de Respuesta</div><div class="metric-trend down">SLA cumplimiento 95%</div></div>
           </div>
 
-          <!-- Bahías de Mantenimiento Taller -->
-          <div class="bays-card">
-            <div class="bays-header">
+          <!-- Áreas Atendidas por TICS -->
+          <div class="support-areas-card">
+            <div class="support-areas-header">
               <div>
-                <h3>Estado de Bahías de Taller (Piso Activo)</h3>
-                <small style="color:var(--text-muted);">Asignación física de unidades y mecánicos responsables</small>
+                <h3>Cobertura de Soporte TICS por Área</h3>
+                <small style="color:var(--text-muted);">Haz clic en cualquier área para filtrar los requerimientos en seguimiento</small>
               </div>
-              <span class="status-pill ready_review">3 Ocupadas · 1 Disponible</span>
+              <span class="status-pill ready_review">Sistemas Operativos 100%</span>
             </div>
-            <div class="bays-grid" id="baysGrid">
-              <div class="bay-card bay-active" data-bay-filter="TC-42">
-                <div class="bay-top"><span class="bay-name">Bahía 1 · Mecánica Diesel</span><span class="bay-state occupied">En atención</span></div>
-                <div class="bay-unit">Tracto TC-42</div>
-                <div class="bay-desc">Falla en inyección y timbrado de Carta Porte TMS</div>
-                <div class="bay-mechanic">${ICONS.wrench}<span>Téc: Fernanda (TICS/Diesel)</span></div>
+            <div class="areas-grid">
+              <div class="area-card" data-area-filter="Tráfico">
+                <div class="area-card-head">
+                  <div class="area-card-title">${ICONS.computer}<span>Área Administrativa & Oficinas</span></div>
+                  <span class="area-badge">2 Tickets</span>
+                </div>
+                <div class="area-card-desc">Soporte a Tráfico, Facturación y Recursos Humanos: timbrado TMS, cartas porte SAT, ERP y conmutador.</div>
+                <div class="area-tags">
+                  <span class="area-tag">Facturación TMS</span>
+                  <span class="area-tag">Red Oficinas</span>
+                  <span class="area-tag">Office 365</span>
+                  <span class="area-tag">Conmutador</span>
+                </div>
               </div>
-              <div class="bay-card bay-active" data-bay-filter="TC-08">
-                <div class="bay-top"><span class="bay-name">Bahía 2 · Preventivo A</span><span class="bay-state occupied">Asignado</span></div>
-                <div class="bay-unit">Tracto TC-08</div>
-                <div class="bay-desc">Servicio por odómetro 80,000 km y filtros</div>
-                <div class="bay-mechanic">${ICONS.wrench}<span>Téc: Taller Mecánico</span></div>
-              </div>
-              <div class="bay-card bay-active" data-bay-filter="TC-104">
-                <div class="bay-top"><span class="bay-name">Bahía 3 · Eléctrico & GPS</span><span class="bay-state occupied">Resuelto</span></div>
-                <div class="bay-unit">Tracto TC-104</div>
-                <div class="bay-desc">Antena GPS y telemetría de odómetro calibrada</div>
-                <div class="bay-mechanic">${ICONS.wrench}<span>Téc: Fernanda (TICS/Diesel)</span></div>
-              </div>
-              <div class="bay-card bay-free">
-                <div class="bay-top"><span class="bay-name">Fosa 4 · Frenos / Suspensión</span><span class="bay-state free">Disponible</span></div>
-                <div class="bay-unit" style="color:var(--text-muted);">Sin Unidad</div>
-                <div class="bay-desc">Lista para recibir próxima unidad programada</div>
-                <div class="bay-mechanic">${ICONS.check}<span>Bahía Despejada</span></div>
+
+              <div class="area-card" data-area-filter="Taller">
+                <div class="area-card-head">
+                  <div class="area-card-title">${ICONS.wrench}<span>Taller Mecánico & Refacciones</span></div>
+                  <span class="area-badge">3 Tickets</span>
+                </div>
+                <div class="area-card-desc">Soporte a Bahías de mantenimiento y almacén: laptops OBD de diagnóstico diesel, antenas GPS e impresoras Zebra.</div>
+                <div class="area-tags">
+                  <span class="area-tag">Diagnóstico OBD</span>
+                  <span class="area-tag">Antenas GPS Cabina</span>
+                  <span class="area-tag">Impresoras Zebra</span>
+                  <span class="area-tag">Wi-Fi Patio</span>
+                </div>
               </div>
             </div>
           </div>
@@ -411,10 +415,10 @@
         window.print();
       });
 
-      // Bay filter clicks
-      content.querySelectorAll('[data-bay-filter]').forEach(bay => {
-        bay.onclick = () => {
-          searchQuery = bay.dataset.bayFilter;
+      // Area filter clicks (Administración vs Taller)
+      content.querySelectorAll('[data-area-filter]').forEach(card => {
+        card.onclick = () => {
+          searchQuery = card.dataset.areaFilter;
           const searchInput = $('#globalSearch');
           if (searchInput) searchInput.value = searchQuery;
           navigateTo('tickets');
@@ -617,6 +621,12 @@
           <button class="filter-chip" data-filter="ready_review">Resueltos</button>
           <button class="filter-chip" data-filter="closed">Cerrados</button>
           
+          <select id="areaSelect" class="filter-chip" style="outline:none; cursor:pointer;">
+            <option value="all">Área: Todas</option>
+            <option value="Tráfico">Oficinas / Administración</option>
+            <option value="Taller">Taller / Patio</option>
+          </select>
+
           <select id="prioritySelect" class="filter-chip" style="outline:none; cursor:pointer;">
             <option value="all">Prioridad: Todas</option>
             <option value="Alta">Alta</option>
@@ -651,6 +661,15 @@
         filterAndRenderTickets();
       };
     });
+
+    const aSelect = $('#areaSelect');
+    if (aSelect) {
+      aSelect.value = areaFilter;
+      aSelect.onchange = (e) => {
+        areaFilter = e.target.value;
+        filterAndRenderTickets();
+      };
+    }
 
     const pSelect = $('#prioritySelect');
     if (pSelect) {
@@ -696,6 +715,16 @@
 
     if (priorityFilter !== 'all') {
       filtered = filtered.filter(t => t.priority === priorityFilter);
+    }
+
+    if (areaFilter !== 'all') {
+      const q = areaFilter.toLowerCase();
+      filtered = filtered.filter(t => 
+        (t.location && t.location.toLowerCase().includes(q)) ||
+        (t.title && t.title.toLowerCase().includes(q)) ||
+        (t.description && t.description.toLowerCase().includes(q)) ||
+        (t.category && t.category.toLowerCase().includes(q))
+      );
     }
 
     if (searchQuery) {
