@@ -1,4 +1,4 @@
-const CACHE_NAME = 'transatlante-mesa-ayuda-v4';
+const CACHE_NAME = 'transatlante-mesa-ayuda-v5';
 const APP_FILES = ['./', './index.html', './roles-app.js', './manifest.webmanifest', './icon.svg', './brand-mark.png'];
 
 self.addEventListener('install', event => {

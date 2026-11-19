@@ -298,10 +298,16 @@
     if (!silent) {
       content.innerHTML = `
         <div class="view-transition">
-          <div class="view-header">
-            <div class="eyebrow">CENTRO DE CONTROL · TRANSATLANTE</div>
-            <h1>Métricas y Estado Operativo</h1>
-            <p>Monitoreo en tiempo real de requerimientos de soporte, tiempos de atención y distribución de incidencias.</p>
+          <div class="view-header" style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:16px;">
+            <div>
+              <div class="eyebrow">CONTROL ADMINISTRATIVO & PISO DE TALLER</div>
+              <h1>Métricas Operativas de Flota</h1>
+              <p>Supervisión en tiempo real de unidades en bahía, tiempos de atención (MTTR) y órdenes activas.</p>
+            </div>
+            <button class="btn btn-secondary" id="btnPrintReport" style="display:inline-flex; align-items:center; gap:8px;">
+              ${ICONS.tickets}
+              <span>Imprimir Informe Ejecutivo</span>
+            </button>
           </div>
           <div class="metrics-row">
             <div class="metric-card"><div class="metric-icon mi-red">${ICONS.alertCircle}</div><div class="metric-value" id="m-new">--</div><div class="metric-label">Tickets Nuevos</div><div class="metric-trend down">Por asignar</div></div>
@@ -309,6 +315,44 @@
             <div class="metric-card"><div class="metric-icon mi-green">${ICONS.checkCircle}</div><div class="metric-value" id="m-done">--</div><div class="metric-label">Resueltos (Semana)</div><div class="metric-trend up">+15% vs sem. ant.</div></div>
             <div class="metric-card"><div class="metric-icon mi-dark">${ICONS.clock}</div><div class="metric-value" id="m-time">--</div><div class="metric-label">Tiempo Promedio</div><div class="metric-trend down">SLA cumplimiento 94%</div></div>
           </div>
+
+          <!-- Bahías de Mantenimiento Taller -->
+          <div class="bays-card">
+            <div class="bays-header">
+              <div>
+                <h3>Estado de Bahías de Taller (Piso Activo)</h3>
+                <small style="color:var(--text-muted);">Asignación física de unidades y mecánicos responsables</small>
+              </div>
+              <span class="status-pill ready_review">3 Ocupadas · 1 Disponible</span>
+            </div>
+            <div class="bays-grid" id="baysGrid">
+              <div class="bay-card bay-active" data-bay-filter="TC-42">
+                <div class="bay-top"><span class="bay-name">Bahía 1 · Mecánica Diesel</span><span class="bay-state occupied">En atención</span></div>
+                <div class="bay-unit">Tracto TC-42</div>
+                <div class="bay-desc">Falla en inyección y timbrado de Carta Porte TMS</div>
+                <div class="bay-mechanic">${ICONS.wrench}<span>Téc: Fernanda (TICS/Diesel)</span></div>
+              </div>
+              <div class="bay-card bay-active" data-bay-filter="TC-08">
+                <div class="bay-top"><span class="bay-name">Bahía 2 · Preventivo A</span><span class="bay-state occupied">Asignado</span></div>
+                <div class="bay-unit">Tracto TC-08</div>
+                <div class="bay-desc">Servicio por odómetro 80,000 km y filtros</div>
+                <div class="bay-mechanic">${ICONS.wrench}<span>Téc: Taller Mecánico</span></div>
+              </div>
+              <div class="bay-card bay-active" data-bay-filter="TC-104">
+                <div class="bay-top"><span class="bay-name">Bahía 3 · Eléctrico & GPS</span><span class="bay-state occupied">Resuelto</span></div>
+                <div class="bay-unit">Tracto TC-104</div>
+                <div class="bay-desc">Antena GPS y telemetría de odómetro calibrada</div>
+                <div class="bay-mechanic">${ICONS.wrench}<span>Téc: Fernanda (TICS/Diesel)</span></div>
+              </div>
+              <div class="bay-card bay-free">
+                <div class="bay-top"><span class="bay-name">Fosa 4 · Frenos / Suspensión</span><span class="bay-state free">Disponible</span></div>
+                <div class="bay-unit" style="color:var(--text-muted);">Sin Unidad</div>
+                <div class="bay-desc">Lista para recibir próxima unidad programada</div>
+                <div class="bay-mechanic">${ICONS.check}<span>Bahía Despejada</span></div>
+              </div>
+            </div>
+          </div>
+
           <div class="charts-row">
             <div class="chart-card">
               <h3>Distribución por Estado</h3>
@@ -361,6 +405,21 @@
 
       // Draw Activity Feed
       drawActivityFeed(tasks);
+
+      // Print report button listener
+      $('#btnPrintReport')?.addEventListener('click', () => {
+        window.print();
+      });
+
+      // Bay filter clicks
+      content.querySelectorAll('[data-bay-filter]').forEach(bay => {
+        bay.onclick = () => {
+          searchQuery = bay.dataset.bayFilter;
+          const searchInput = $('#globalSearch');
+          if (searchInput) searchInput.value = searchQuery;
+          navigateTo('tickets');
+        };
+      });
 
     } catch (err) {
       console.error(err);
