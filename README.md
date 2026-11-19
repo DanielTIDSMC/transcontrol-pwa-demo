@@ -29,14 +29,18 @@ Abre `http://127.0.0.1:4173`. Las cuentas iniciales son `admin`, `tics` y `colab
 
 ## Desplegar en Render
 
-El Blueprint `render.yaml` define el servicio Node, el chequeo de salud `/api/health`, las variables iniciales y un disco persistente montado en `/var/data` para tickets y adjuntos.
+El Blueprint `render.yaml` define un servicio Node gratuito y el chequeo de salud `/api/health`.
 
 1. Sube este proyecto a un repositorio Git y crea un **Blueprint** en Render apuntando al repositorio.
-2. En el formulario de Render, define `ADMIN_PASSWORD`, `TICS_PASSWORD` y `EMPLOYEE_PASSWORD`. Usa contraseñas únicas de al menos 12 caracteres.
+2. Elige el plan **Free** y define `ADMIN_PASSWORD`, `TICS_PASSWORD` y `EMPLOYEE_PASSWORD` con contraseñas únicas de al menos 12 caracteres.
 3. Confirma la creación del servicio y espera a que finalice el despliegue. Render asignará una URL pública.
 4. Inicia sesión como administrador y crea las cuentas de colaboradores y personal TICS. Desactiva `colaborador` cuando termines de configurar el acceso real.
 
-El disco persistente requiere un tipo de servicio de Render que admita discos. No elimines ni reemplaces el disco si necesitas conservar los datos. El almacenamiento actual es JSON en un solo servicio Node; para mayor concurrencia o múltiples instancias conviene migrar a PostgreSQL y almacenamiento de objetos.
+## Límites del plan gratuito
+
+Esta configuración sirve para una prueba de concepto. Render duerme el servicio gratuito tras 15 minutos sin tráfico y puede reiniciarlo; al dormir, reiniciar o volver a desplegar, borra los cambios del sistema de archivos. Como esta versión guarda tickets, usuarios y adjuntos en archivos locales, esos datos pueden desaparecer. No la uses aún para solicitudes reales de la empresa.
+
+Render Postgres gratuito tampoco resuelve el almacenamiento permanente: vence a los 30 días. Para un piloto con tickets reales sin pagar, el siguiente paso es migrar los datos a una base de datos gratuita externa y guardar los adjuntos ahí; esa opción también tiene límites de uso e inactividad.
 
 ## Datos y credenciales
 

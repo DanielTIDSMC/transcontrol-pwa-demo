@@ -2,19 +2,13 @@ services:
   - type: web
     name: transatlante-mesa-ayuda
     runtime: node
-    plan: starter
+    plan: free
     buildCommand: npm install
     startCommand: npm start
     healthCheckPath: /api/health
-    disk:
-      name: transatlante-tics-data
-      mountPath: /var/data
-      sizeGB: 1
     envVars:
       - key: NODE_ENV
         value: production
-      - key: DATA_DIR
-        value: /var/data
       - key: ADMIN_USERNAME
         value: admin
       - key: ADMIN_NAME
