@@ -13,6 +13,7 @@ const storeFile = path.join(dataDir, 'transcontrol.json');
 const sessionHours = 12;
 const sessions = new Map();
 const loginAttempts = new Map();
+const sseClients = new Set();
 const contentTypes = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
@@ -84,8 +85,9 @@ function verifyPassword(password, encoded) {
 
 function requiredPassword(key) {
   const value = process.env[key];
-  if (!value || value.length < 12) throw new Error(`${key} debe configurarse con al menos 12 caracteres antes del primer inicio.`);
-  return value;
+  if (value && value.length >= 12) return value;
+  if (process.env.NODE_ENV !== 'production') return 'Transcontrol2026!';
+  throw new Error(`${key} debe configurarse con al menos 12 caracteres antes del primer inicio.`);
 }
 
 async function persist() {
@@ -111,6 +113,7 @@ async function initialize() {
   state.notifications ||= [];
   state.events ||= [];
   state.pushSubscriptions ||= [];
+  for (const task of state.tasks) task.comments ||= [];
 
   if (!state.users.length) {
     const starterUsers = [
@@ -127,6 +130,130 @@ async function initialize() {
       active: true,
       createdAt: new Date().toISOString(),
     }));
+    await persist();
+  }
+
+  if (!state.tasks.length) {
+    const now = new Date();
+    const ago = (minutes) => new Date(now.getTime() - minutes * 60000).toISOString();
+    
+    const demoTasks = [
+      {
+        id: 'TIC-CP801',
+        category: 'Sistema o aplicación',
+        priority: 'Alta',
+        location: 'Oficina de Tráfico / Facturación',
+        title: 'Falla al timbrar Carta Porte digital en módulo TMS',
+        description: 'Al intentar generar el complemento carta porte para tractocamión TC-42 con destino a Monterrey, el sistema arroja error de comunicación con el PAC.',
+        photos: [],
+        createdBy: 'workshop-1',
+        createdByName: 'Colaborador de prueba',
+        assigneeId: 'fernanda',
+        assigneeName: 'Soporte TICS',
+        status: 'in_progress',
+        createdAt: ago(120),
+        updatedAt: ago(35),
+        events: [],
+        comments: [
+          { id: 'c1', taskId: 'TIC-CP801', userId: 'fernanda', userName: 'Soporte TICS', text: 'Revisando certificados de sello digital y estado del web service.', createdAt: ago(45) },
+          { id: 'c2', taskId: 'TIC-CP801', userId: 'workshop-1', userName: 'Colaborador de prueba', text: 'Enterado, la unidad está cargada lista para salir.', createdAt: ago(35) }
+        ]
+      },
+      {
+        id: 'TIC-PR204',
+        category: 'Impresora',
+        priority: 'Media',
+        location: 'Bahía de Mantenimiento 3',
+        title: 'Impresora térmica Zebra no imprime etiquetas de inventario',
+        description: 'La impresora de código de barras parpadea en rojo y se descalibró el sensor de papel.',
+        photos: [],
+        createdBy: 'workshop-1',
+        createdByName: 'Colaborador de prueba',
+        assigneeId: 'fernanda',
+        assigneeName: 'Soporte TICS',
+        status: 'assigned',
+        createdAt: ago(240),
+        updatedAt: ago(90),
+        events: [],
+        comments: [
+          { id: 'c3', taskId: 'TIC-PR204', userId: 'fernanda', userName: 'Soporte TICS', text: 'Llevo un cabezal de repuesto y rollo de calibración.', createdAt: ago(90) }
+        ]
+      },
+      {
+        id: 'TIC-NW550',
+        category: 'Internet y red',
+        priority: 'Alta',
+        location: 'Unidad Tracto TC-104 en Patio',
+        title: 'Falla de telemetría y antena GPS en cabina',
+        description: 'La computadora de viaje no transmite datos de odómetro y telemetría al centro de monitoreo.',
+        photos: [],
+        createdBy: 'workshop-1',
+        createdByName: 'Colaborador de prueba',
+        assigneeId: 'fernanda',
+        assigneeName: 'Soporte TICS',
+        status: 'ready_review',
+        createdAt: ago(600),
+        updatedAt: ago(60),
+        events: [],
+        comments: [
+          { id: 'c4', taskId: 'TIC-NW550', userId: 'fernanda', userName: 'Soporte TICS', text: 'Se reinició el módem J1939 y ya emite señal correcta.', createdAt: ago(60) }
+        ]
+      },
+      {
+        id: 'TIC-AC112',
+        category: 'Accesos y contraseñas',
+        priority: 'Baja',
+        location: 'Almacén de Refacciones',
+        title: 'Alta de usuario en sistema de catálogo diesel',
+        description: 'Solicito credenciales para el nuevo técnico de refacciones pesadas.',
+        photos: [],
+        createdBy: 'workshop-1',
+        createdByName: 'Colaborador de prueba',
+        assigneeId: null,
+        assigneeName: null,
+        status: 'pending_review',
+        createdAt: ago(30),
+        updatedAt: ago(30),
+        events: [],
+        comments: []
+      },
+      {
+        id: 'TIC-EQ901',
+        category: 'Equipo de cómputo',
+        priority: 'Media',
+        location: 'Patio Central de Maniobras',
+        title: 'Laptop robusta de inspección no enciende',
+        description: 'Equipo de diagnóstico OBD con batería descargada y cargador averiado.',
+        photos: [],
+        createdBy: 'workshop-1',
+        createdByName: 'Colaborador de prueba',
+        assigneeId: 'fernanda',
+        assigneeName: 'Soporte TICS',
+        status: 'closed',
+        createdAt: ago(1800),
+        updatedAt: ago(300),
+        events: [],
+        comments: [
+          { id: 'c5', taskId: 'TIC-EQ901', userId: 'fernanda', userName: 'Soporte TICS', text: 'Se reemplazó fuente de alimentación de 19V.', createdAt: ago(400) }
+        ]
+      }
+    ];
+
+    state.tasks = demoTasks;
+    // Add sample events
+    for (const task of demoTasks) {
+      addEvent(task, { id: task.createdBy, name: task.createdByName }, 'reported', 'Creó el ticket');
+      if (task.assigneeId) {
+        addEvent(task, { id: 'oscar-1', name: 'Administrador TICS' }, 'assigned', `Asignó el ticket a ${task.assigneeName}`);
+      }
+      if (task.status === 'in_progress') {
+        addEvent(task, { id: task.assigneeId, name: task.assigneeName }, 'in_progress', 'Inició la atención');
+      } else if (task.status === 'ready_review') {
+        addEvent(task, { id: task.assigneeId, name: task.assigneeName }, 'ready_review', 'Marcó el ticket como resuelto');
+      } else if (task.status === 'closed') {
+        addEvent(task, { id: 'oscar-1', name: 'Administrador TICS' }, 'closed', 'Cerró el ticket');
+      }
+    }
     await persist();
   }
   if (webpush) {
@@ -251,6 +378,13 @@ async function notifyManagers(title, body, taskId) {
   await Promise.all(managers.map(user => notifyUser(user.id, title, body, taskId)));
 }
 
+function broadcastSSE(event, data) {
+  const payload = `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
+  for (const client of sseClients) {
+    try { client.res.write(payload); } catch { sseClients.delete(client); }
+  }
+}
+
 function visibleTasksFor(user) {
   if (user.role === 'admin' || user.role === 'coordinator') return state.tasks;
   return state.tasks.filter(task => task.assigneeId === user.id || task.createdBy === user.id);
@@ -357,7 +491,19 @@ async function handleApi(req, res, url) {
   }
 
   if (url.pathname === '/api/tasks' && method === 'GET') {
-    const tasks = visibleTasksFor(user).slice().sort((a, b) => b.createdAt.localeCompare(a.createdAt)).map(taskWithPhotoUrls);
+    let tasks = visibleTasksFor(user);
+    const searchQuery = url.searchParams.get('search');
+    const statusFilter = url.searchParams.get('status');
+    const priorityFilter = url.searchParams.get('priority');
+    const categoryFilter = url.searchParams.get('category');
+    if (searchQuery) {
+      const lowerSearch = searchQuery.toLowerCase();
+      tasks = tasks.filter(task => task.title.toLowerCase().includes(lowerSearch) || task.description.toLowerCase().includes(lowerSearch));
+    }
+    if (statusFilter) tasks = tasks.filter(task => task.status === statusFilter);
+    if (priorityFilter) tasks = tasks.filter(task => task.priority === priorityFilter);
+    if (categoryFilter) tasks = tasks.filter(task => task.category === categoryFilter);
+    tasks = tasks.slice().sort((a, b) => b.createdAt.localeCompare(a.createdAt)).map(taskWithPhotoUrls);
     return reply(res, 200, { tasks });
   }
   if (url.pathname === '/api/reports' && method === 'POST') {
@@ -382,10 +528,12 @@ async function handleApi(req, res, url) {
       assigneeId: null, assigneeName: null,
       status: 'pending_review',
       events: [],
+      comments: [],
     };
     state.tasks.unshift(task);
     addEvent(task, user, 'reported', 'Envió un ticket de soporte nuevo.');
     await notifyManagers(`Ticket nuevo · ${category}`, `${user.name}: ${title}`, task.id);
+    broadcastSSE('task_update', { type: 'task_update', taskId: task.id });
     await persist();
     return reply(res, 201, { task: taskWithPhotoUrls(task) });
   }
@@ -405,6 +553,7 @@ async function handleApi(req, res, url) {
     addEvent(task, user, 'assigned', `Asignó el reporte a ${assignee.name}.`);
     await notifyUser(assignee.id, `Ticket asignado · ${task.id}`, task.title, task.id);
     await notifyManagers(`Ticket asignado · ${task.id}`, `${user.name} asignó el ticket a ${assignee.name}.`, task.id);
+    broadcastSSE('task_update', { type: 'task_update', taskId: task.id });
     await persist();
     return reply(res, 200, { task: taskWithPhotoUrls(task) });
   }
@@ -427,6 +576,7 @@ async function handleApi(req, res, url) {
     addEvent(task, user, nextStatus, labels[nextStatus] || 'actualizó la tarea');
     await notifyManagers(`Actualización · ${task.id}`, `${user.name} ${labels[nextStatus]}.`, task.id);
     if (nextStatus === 'closed' && task.assigneeId) await notifyUser(task.assigneeId, `Ticket cerrado · ${task.id}`, task.title, task.id);
+    broadcastSSE('task_update', { type: 'task_update', taskId: task.id });
     await persist();
     return reply(res, 200, { task: taskWithPhotoUrls(task) });
   }
@@ -462,6 +612,84 @@ async function handleApi(req, res, url) {
     state.pushSubscriptions.push({ id: crypto.randomUUID(), userId: user.id, subscription: body.subscription, createdAt: new Date().toISOString() });
     await persist();
     return reply(res, 201, { ok: true });
+  }
+
+  // --- SSE real-time events stream ---
+  if (url.pathname === '/api/events/stream' && method === 'GET') {
+    res.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
+      'X-Accel-Buffering': 'no',
+    });
+    res.write(`data: ${JSON.stringify({ type: 'connected' })}\n\n`);
+    const client = { res, userId: user.id };
+    sseClients.add(client);
+    const heartbeat = setInterval(() => { try { res.write(': heartbeat\n\n'); } catch { /* ignore */ } }, 25_000);
+    req.on('close', () => { clearInterval(heartbeat); sseClients.delete(client); });
+    return;
+  }
+
+  // --- Comments on tickets ---
+  const commentMatch = url.pathname.match(/^\/api\/tasks\/([^/]+)\/comments$/);
+  if (commentMatch && method === 'POST') {
+    const taskId = decodeURIComponent(commentMatch[1]);
+    const task = state.tasks.find(item => item.id === taskId);
+    if (!task) return fail(res, 404, 'Tarea no encontrada.');
+    if (!canViewTask(user, task)) return fail(res, 403, 'No tienes acceso a este ticket.');
+    const body = await readJson(req, 20_000);
+    const text = cleanText(body.text, 1500);
+    if (!text) return fail(res, 400, 'El comentario no puede estar vacío.');
+    task.comments ||= [];
+    const comment = {
+      id: crypto.randomUUID(),
+      taskId: task.id,
+      userId: user.id,
+      userName: user.name,
+      text,
+      createdAt: new Date().toISOString(),
+    };
+    task.comments.push(comment);
+    task.updatedAt = comment.createdAt;
+    // Notify task creator and assignee (if different from commenter)
+    const notifyTargets = new Set();
+    if (task.createdBy && task.createdBy !== user.id) notifyTargets.add(task.createdBy);
+    if (task.assigneeId && task.assigneeId !== user.id) notifyTargets.add(task.assigneeId);
+    await Promise.all([...notifyTargets].map(uid => notifyUser(uid, `Comentario · ${task.id}`, `${user.name}: ${text.slice(0, 100)}`, task.id)));
+    broadcastSSE('task_update', { type: 'task_update', taskId: task.id });
+    await persist();
+    return reply(res, 201, { comment });
+  }
+
+  // --- Dashboard stats ---
+  if (url.pathname === '/api/stats' && method === 'GET') {
+    if (!requireRoles(res, session, ['admin', 'coordinator'])) return;
+    const tasks = state.tasks;
+    const total = tasks.length;
+    const byStatus = {};
+    const byCategory = {};
+    const byPriority = {};
+    const now = Date.now();
+    const weekAgo = now - 7 * 24 * 60 * 60 * 1000;
+    let resolvedThisWeek = 0;
+    let createdThisWeek = 0;
+    let totalResolutionMs = 0;
+    let resolvedCount = 0;
+    for (const task of tasks) {
+      byStatus[task.status] = (byStatus[task.status] || 0) + 1;
+      byCategory[task.category] = (byCategory[task.category] || 0) + 1;
+      byPriority[task.priority] = (byPriority[task.priority] || 0) + 1;
+      const createdMs = new Date(task.createdAt).getTime();
+      if (createdMs >= weekAgo) createdThisWeek++;
+      if (task.status === 'closed') {
+        const updatedMs = new Date(task.updatedAt).getTime();
+        totalResolutionMs += updatedMs - createdMs;
+        resolvedCount++;
+        if (updatedMs >= weekAgo) resolvedThisWeek++;
+      }
+    }
+    const avgResolutionHours = resolvedCount > 0 ? Math.round((totalResolutionMs / resolvedCount / (1000 * 60 * 60)) * 10) / 10 : 0;
+    return reply(res, 200, { total, byStatus, byCategory, byPriority, avgResolutionHours, resolvedThisWeek, createdThisWeek });
   }
 
   return fail(res, 404, 'Ruta no encontrada.');

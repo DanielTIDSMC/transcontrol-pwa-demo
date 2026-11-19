@@ -16,16 +16,25 @@ Necesitas Node.js 22 o posterior.
 
 ```powershell
 npm install
-Copy-Item .env.example .env
-```
-
-Define tres contraseñas distintas de al menos 12 caracteres en `.env` y ejecuta:
-
-```powershell
 npm start
 ```
 
-Abre `http://127.0.0.1:4173`. Las cuentas iniciales son `admin`, `tics` y `colaborador`; usa las contraseñas definidas en `.env`. El administrador puede crear las cuentas reales del personal y desactivar la cuenta de prueba.
+Abre `http://127.0.0.1:4173`. 
+
+### Cuentas y credenciales demo iniciales:
+- **Administrador:** `admin` / `Transcontrol2026!`
+- **Soporte TICS:** `tics` / `Transcontrol2026!`
+- **Colaborador:** `colaborador` / `Transcontrol2026!`
+
+*(En producción en Render, se definen a través de las variables privadas de entorno).*
+
+## Novedades Transcontrol V1 (Demo Ejecutiva)
+- 📊 **Dashboard Ejecutivo:** Gráficas SVG interactivas (donas por estado, barras por categoría), métricas SLA y bitácora reciente.
+- ⚡ **Tiempo Real (SSE):** Actualizaciones instantáneas sin recargar la pantalla.
+- 💬 **Hilos de Comentarios:** Comunicación directa entre solicitante y personal técnico.
+- 🔍 **Búsqueda y Filtros Avanzados:** Filtrado por estado, prioridad y búsqueda en vivo.
+- 🌙 **Dark Mode & Light Mode:** Selector de tema persistente y adaptable.
+- 📱 **Diseño Responsive:** Sidebar interactivo para desktop y Bottom Navigation Bar para dispositivos móviles.
 
 ## Desplegar en Render
 
