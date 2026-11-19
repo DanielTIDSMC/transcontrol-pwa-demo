@@ -1,13 +1,13 @@
 services:
   - type: web
-    name: transcontrol-taller
+    name: transatlante-mesa-ayuda
     runtime: node
     plan: starter
     buildCommand: npm install
     startCommand: npm start
     healthCheckPath: /api/health
     disk:
-      name: transcontrol-data
+      name: transatlante-tics-data
       mountPath: /var/data
       sizeGB: 1
     envVars:
@@ -15,23 +15,23 @@ services:
         value: production
       - key: DATA_DIR
         value: /var/data
-      - key: OSCAR_USERNAME
-        value: oscar1
-      - key: OSCAR_NAME
-        value: Oscar 1
-      - key: OSCAR_PASSWORD
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: ADMIN_NAME
+        value: Administrador TICS
+      - key: ADMIN_PASSWORD
         sync: false
-      - key: FERNANDA_USERNAME
-        value: fernanda
-      - key: FERNANDA_NAME
-        value: Fernanda
-      - key: FERNANDA_PASSWORD
+      - key: TICS_USERNAME
+        value: tics
+      - key: TICS_NAME
+        value: Soporte TICS
+      - key: TICS_PASSWORD
         sync: false
-      - key: WORKSHOP_USERNAME
-        value: taller1
-      - key: WORKSHOP_NAME
-        value: Técnico de taller 1
-      - key: WORKSHOP_PASSWORD
+      - key: EMPLOYEE_USERNAME
+        value: colaborador
+      - key: EMPLOYEE_NAME
+        value: Colaborador de prueba
+      - key: EMPLOYEE_PASSWORD
         sync: false
       - key: VAPID_SUBJECT
-        value: mailto:admin@transcontrol.local
+        value: mailto:tics@transatlante.mx

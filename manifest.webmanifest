@@ -1,7 +1,7 @@
 {
-  "name": "Transcontrol · Control de Taller",
-  "short_name": "Transcontrol Taller",
-  "description": "Control operativo de taller mecánico, mantenimiento de flota, órdenes de trabajo y refacciones.",
+  "name": "Mesa de ayuda TICS · TransAtlante",
+  "short_name": "Mesa de ayuda",
+  "description": "Tickets de soporte interno para el equipo TICS de TransAtlante.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

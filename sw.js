@@ -1,4 +1,4 @@
-const CACHE_NAME = 'transcontrol-taller-v5';
+const CACHE_NAME = 'transatlante-mesa-ayuda-v1';
 const APP_FILES = ['./', './index.html', './roles-app.js', './manifest.webmanifest', './icon.svg', './brand-mark.png'];
 
 self.addEventListener('install', event => {
@@ -40,10 +40,10 @@ self.addEventListener('fetch', event => {
 });
 
 self.addEventListener('push', event => {
-  let data = { title: 'Transcontrol Taller', body: 'Tienes una actualización del taller mecánico.', url: './index.html' };
+  let data = { title: 'Mesa de ayuda TICS', body: 'Tienes una actualización de tu ticket de soporte.', url: './index.html' };
   try { if (event.data) data = { ...data, ...event.data.json() }; } catch { if (event.data) data.body = event.data.text(); }
   event.waitUntil(self.registration.showNotification(data.title, {
-    body: data.body, icon: './icon.svg', badge: './icon.svg', tag: data.tag || 'transcontrol-taller-ops',
+    body: data.body, icon: './icon.svg', badge: './icon.svg', tag: data.tag || 'transatlante-tics',
     data: { url: data.url || './index.html' }, vibrate: [120, 60, 120]
   }));
 });

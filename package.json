@@ -1,8 +1,8 @@
 {
-  "name": "transcontrol-taller",
+  "name": "transatlante-mesa-ayuda",
   "version": "1.0.0",
   "private": true,
-  "description": "Control colaborativo de órdenes y reportes del taller Transcontrol",
+  "description": "Mesa de ayuda interna para tickets de soporte TICS de TransAtlante",
   "main": "server.js",
   "engines": {
     "node": ">=22"

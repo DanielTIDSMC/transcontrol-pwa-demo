@@ -114,9 +114,9 @@ async function initialize() {
 
   if (!state.users.length) {
     const starterUsers = [
-      { id: 'oscar-1', username: process.env.OSCAR_USERNAME || 'oscar1', name: process.env.OSCAR_NAME || 'Oscar 1', role: 'admin', password: requiredPassword('OSCAR_PASSWORD') },
-      { id: 'fernanda', username: process.env.FERNANDA_USERNAME || 'fernanda', name: process.env.FERNANDA_NAME || 'Fernanda', role: 'coordinator', password: requiredPassword('FERNANDA_PASSWORD') },
-      { id: 'workshop-1', username: process.env.WORKSHOP_USERNAME || 'taller1', name: process.env.WORKSHOP_NAME || 'Técnico de taller 1', role: 'workshop', password: requiredPassword('WORKSHOP_PASSWORD') },
+      { id: 'oscar-1', username: process.env.ADMIN_USERNAME || process.env.OSCAR_USERNAME || 'admin', name: process.env.ADMIN_NAME || process.env.OSCAR_NAME || 'Administrador TICS', role: 'admin', password: requiredPassword(process.env.ADMIN_PASSWORD ? 'ADMIN_PASSWORD' : 'OSCAR_PASSWORD') },
+      { id: 'fernanda', username: process.env.TICS_USERNAME || process.env.FERNANDA_USERNAME || 'tics', name: process.env.TICS_NAME || process.env.FERNANDA_NAME || 'Soporte TICS', role: 'coordinator', password: requiredPassword(process.env.TICS_PASSWORD ? 'TICS_PASSWORD' : 'FERNANDA_PASSWORD') },
+      { id: 'workshop-1', username: process.env.EMPLOYEE_USERNAME || process.env.WORKSHOP_USERNAME || 'colaborador', name: process.env.EMPLOYEE_NAME || process.env.WORKSHOP_NAME || 'Colaborador de prueba', role: 'workshop', password: requiredPassword(process.env.EMPLOYEE_PASSWORD ? 'EMPLOYEE_PASSWORD' : 'WORKSHOP_PASSWORD') },
     ];
     state.users = starterUsers.map(user => ({
       id: user.id,
@@ -363,21 +363,20 @@ async function handleApi(req, res, url) {
   if (url.pathname === '/api/reports' && method === 'POST') {
     if (!requireRoles(res, session, ['workshop'])) return;
     const body = await readJson(req, 13 * 1024 * 1024);
-    const truckId = cleanText(body.truckId, 20).toUpperCase();
-    const odometer = cleanText(body.odometer, 20);
-    const odometerDigits = odometer.replaceAll(',', '');
+    const location = cleanText(body.location, 100);
     const category = cleanText(body.category, 50);
     const priority = body.priority;
     const title = cleanText(body.title, 140);
     const description = cleanText(body.description, 1500);
-    if (!/^TC-\d{2,4}$/.test(truckId) || !/^\d{1,7}$/.test(odometerDigits) || !['Mecánico', 'Frenos', 'Motor', 'Eléctrico', 'Neumático', 'Llantas', 'Otro'].includes(category) || !title || !description || !['Baja', 'Media', 'Alta'].includes(priority)) {
-      return fail(res, 400, 'Completa unidad, odómetro, tipo de falla, prioridad, resumen y descripción.');
+    const categories = ['Equipo de cómputo', 'Correo electrónico', 'Internet y red', 'Sistema o aplicación', 'Impresora', 'Telefonía', 'Accesos y contraseñas', 'Otro'];
+    if (!categories.includes(category) || !title || !description || !['Baja', 'Media', 'Alta'].includes(priority)) {
+      return fail(res, 400, 'Completa área, prioridad, asunto y descripción del ticket.');
     }
     const photos = await savePhotos(body.photos || []);
     const now = new Date().toISOString();
     const task = {
-      id: `REP-${crypto.randomUUID().slice(0, 8).toUpperCase()}`,
-      truckId, odometer: Number(odometerDigits).toLocaleString('es-MX'), category, priority, title, description, photos,
+      id: `TIC-${crypto.randomUUID().slice(0, 8).toUpperCase()}`,
+      location, category, priority, title, description, photos,
       createdBy: user.id, createdByName: user.name,
       createdAt: now, updatedAt: now,
       assigneeId: null, assigneeName: null,
@@ -385,8 +384,8 @@ async function handleApi(req, res, url) {
       events: [],
     };
     state.tasks.unshift(task);
-    addEvent(task, user, 'reported', 'El taller envió un reporte nuevo.');
-    await notifyManagers(`Reporte nuevo · ${truckId}`, `${user.name}: ${title}`, task.id);
+    addEvent(task, user, 'reported', 'Envió un ticket de soporte nuevo.');
+    await notifyManagers(`Ticket nuevo · ${category}`, `${user.name}: ${title}`, task.id);
     await persist();
     return reply(res, 201, { task: taskWithPhotoUrls(task) });
   }
@@ -398,14 +397,14 @@ async function handleApi(req, res, url) {
     if (!task) return fail(res, 404, 'Reporte no encontrado.');
     if (task.status === 'closed') return fail(res, 409, 'Una tarea cerrada no se puede volver a asignar.');
     const body = await readJson(req, 20_000);
-    const assignee = state.users.find(item => item.id === body.assigneeId && item.role === 'workshop' && item.active !== false);
-    if (!assignee) return fail(res, 400, 'Selecciona un técnico activo del taller.');
+    const assignee = state.users.find(item => item.id === body.assigneeId && item.role === 'coordinator' && item.active !== false);
+    if (!assignee) return fail(res, 400, 'Selecciona una persona activa del equipo TICS.');
     task.assigneeId = assignee.id;
     task.assigneeName = assignee.name;
     task.status = 'assigned';
     addEvent(task, user, 'assigned', `Asignó el reporte a ${assignee.name}.`);
-    await notifyUser(assignee.id, `Tarea asignada · ${task.truckId}`, task.title, task.id);
-    await notifyManagers(`Reporte asignado · ${task.truckId}`, `${user.name} asignó la tarea a ${assignee.name}.`, task.id);
+    await notifyUser(assignee.id, `Ticket asignado · ${task.id}`, task.title, task.id);
+    await notifyManagers(`Ticket asignado · ${task.id}`, `${user.name} asignó el ticket a ${assignee.name}.`, task.id);
     await persist();
     return reply(res, 200, { task: taskWithPhotoUrls(task) });
   }
@@ -416,18 +415,18 @@ async function handleApi(req, res, url) {
     if (!task) return fail(res, 404, 'Tarea no encontrada.');
     const body = await readJson(req, 20_000);
     const nextStatus = body.status;
-    if (user.role === 'workshop') {
+    if (user.role === 'coordinator') {
       if (task.assigneeId !== user.id) return fail(res, 403, 'Solo puedes actualizar tareas que te asignaron.');
       const allowed = task.status === 'assigned' && nextStatus === 'in_progress' || task.status === 'in_progress' && nextStatus === 'ready_review';
       if (!allowed) return fail(res, 409, 'Ese cambio de estado no está permitido.');
     } else {
-      if (!['admin', 'coordinator'].includes(user.role) || task.status !== 'ready_review' || nextStatus !== 'closed') return fail(res, 409, 'Solo coordinación puede cerrar una tarea que el taller marcó como lista.');
+      if (user.role !== 'admin' || task.status !== 'ready_review' || nextStatus !== 'closed') return fail(res, 409, 'Solo administración puede cerrar un ticket resuelto.');
     }
     task.status = nextStatus;
-    const labels = { in_progress: 'comenzó el trabajo', ready_review: 'marcó la tarea lista para revisión', closed: 'cerró la tarea' };
+    const labels = { in_progress: 'comenzó la atención', ready_review: 'marcó el ticket como resuelto', closed: 'cerró el ticket' };
     addEvent(task, user, nextStatus, labels[nextStatus] || 'actualizó la tarea');
-    await notifyManagers(`Actualización · ${task.truckId}`, `${user.name} ${labels[nextStatus]}.`, task.id);
-    if (nextStatus === 'closed' && task.assigneeId) await notifyUser(task.assigneeId, `Tarea cerrada · ${task.truckId}`, task.title, task.id);
+    await notifyManagers(`Actualización · ${task.id}`, `${user.name} ${labels[nextStatus]}.`, task.id);
+    if (nextStatus === 'closed' && task.assigneeId) await notifyUser(task.assigneeId, `Ticket cerrado · ${task.id}`, task.title, task.id);
     await persist();
     return reply(res, 200, { task: taskWithPhotoUrls(task) });
   }
@@ -503,9 +502,9 @@ const server = http.createServer(async (req, res) => {
 
 const initializeOnce = initialize();
 initializeOnce.then(() => {
-  server.listen(port, '0.0.0.0', () => console.log(`Transcontrol Taller escuchando en el puerto ${port}`));
+  server.listen(port, '0.0.0.0', () => console.log(`Mesa de ayuda TICS escuchando en el puerto ${port}`));
 }).catch(error => {
-  console.error(`No se pudo iniciar Transcontrol: ${error.message}`);
+  console.error(`No se pudo iniciar Mesa de ayuda TICS: ${error.message}`);
   process.exitCode = 1;
 });
 
